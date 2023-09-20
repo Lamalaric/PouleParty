@@ -2,6 +2,7 @@
 Platformer Game
 """
 import arcade
+import Ball
 
 # Constants
 SCREEN_WIDTH = 1000
@@ -10,6 +11,7 @@ SCREEN_TITLE = "Platformer"
 
 # Constants used to scale our sprites from their original size
 CHARACTER_SCALING = 0.2
+EGG_SCALING = 0.05
 TILE_SCALING = 2
 
 # Movement speed of player, in pixels per frame
@@ -31,6 +33,7 @@ class MyGame(arcade.Window):
 
         # Separate variable that holds the player sprite
         self.player_sprite = None
+        self.Ball = None
 
         # Our physics engine
         self.physics_engine = None
@@ -67,8 +70,8 @@ class MyGame(arcade.Window):
         self.scene.add_sprite("Walls", right_wall)
 
 
-
-
+        self.Ball = Ball.Ball()
+        Ball.setup()
 
         # Create the 'physics engine'
         self.physics_engine = arcade.PhysicsEngineSimple(
@@ -87,18 +90,18 @@ class MyGame(arcade.Window):
     def on_key_press(self, key, modifiers):
         """Called whenever a key is pressed."""
 
-        if key == arcade.key.RIGHT or key == arcade.key.W:
+        if key == arcade.key.RIGHT or key == arcade.key.Q:
             self.player_sprite.change_x = PLAYER_MOVEMENT_SPEED
-        elif key == arcade.key.LEFT or key == arcade.key.S:
+        elif key == arcade.key.LEFT or key == arcade.key.D:
             self.player_sprite.change_x = -PLAYER_MOVEMENT_SPEED
 
 
     def on_key_release(self, key, modifiers):
         """Called when the user releases a key."""
 
-        if key == arcade.key.RIGHT or key == arcade.key.W:
+        if key == arcade.key.RIGHT or key == arcade.key.Q:
             self.player_sprite.change_x = 0
-        elif key == arcade.key.LEFT or key == arcade.key.S:
+        elif key == arcade.key.LEFT or key == arcade.key.D:
             self.player_sprite.change_x = 0
 
 
