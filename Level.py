@@ -1,6 +1,8 @@
 import os
 import json
 
+import Brick
+
 
 class Level:
     def __init__(self, imagePath):
@@ -19,7 +21,7 @@ class Level:
         # Regarder si y'a pas des maps ou similaire pour réduire la complexité O(n)
         bricks_to_remove = []
         for brick in self.bricks:
-            if brick.hp <= 0:
+            if brick.healthPoint <= 0:
                 bricks_to_remove.append(brick)
 
         for brick in bricks_to_remove:
@@ -36,9 +38,8 @@ class Level:
             with open(json_path, 'r') as json_file:
                 data = json.load(json_file)
 
-                # Assuming each element in the JSON file is a dictionary with brick information.
                 for brick_data in data:
-                    brick = Brick.fromJson(brick_data)
+                    brick = Brick.Brick.fromJson(brick_data)
                     self.bricks.append(brick)
         else:
             print(f"JSON file '{json_filename}' not found for level {self.level_number}.")
