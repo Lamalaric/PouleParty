@@ -19,6 +19,8 @@ class GameView(arcade.View):
         # Our Scene Object
         self.scene = None
 
+        self.background = None
+
         # Separate variable that holds the player sprite
         self.platform = None
         self.TopWall = None
@@ -32,9 +34,11 @@ class GameView(arcade.View):
     def setup(self):
         """Set up the game here. Call this function to restart the game."""
 
+
     def on_show_view(self):
 
         # Initialize Scene
+
         self.scene = arcade.Scene()
 
         self.platform = Platform()
@@ -56,13 +60,19 @@ class GameView(arcade.View):
             self.platform.sprite, self.scene.get_sprite_list("Walls")
         )
 
-        arcade.set_background_color(arcade.csscolor.CORNFLOWER_BLUE)
+        self.background = arcade.load_texture("./Assets/fond_jeu.jpg")
+
+
 
     def on_draw(self):
         """Render the screen."""
 
         # Clear the screen to the background color
         self.clear()
+
+        arcade.draw_lrwh_rectangle_textured(0, 0,
+                                            SCREEN_WIDTH, SCREEN_HEIGHT,
+                                            self.background)
 
         # Draw our Scene
         self.scene.draw()
