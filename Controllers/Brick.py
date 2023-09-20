@@ -1,15 +1,17 @@
+
+
 class Brick:
     """Classe decrivant le fonctionnement d'une brick."""
 
+    """Constructeur de classe"""
     def __init__(self, healthPoint, position, size):
-        """Constructeur de classe"""
         self.healthPoint = healthPoint
         self.position = position
         self.size = size
 
+    """Retirer des points de vie à la brick"""
     def __updateHealthPoint(self, healthPointToRemove):
-        """Retirer des points de vie à la brick"""
-        if self.healthPoint - healthPointToRemove <= 0:
+        if (self.healthPoint - healthPointToRemove <= 0):
             self.die()
 
             return
@@ -18,8 +20,15 @@ class Brick:
 
         return self.healthPoint
 
-    def __die(self):
-        """Détruire la brick lorsqu'elle n'a plus de vie"""
+    @staticmethod
+    def fromJson(data):
+        hp = data["hp"]
+        position = data["position"]
+        size = data["size"]
+        return Brick(hp, position, size)
 
+    """Détruire la brick lorsqu'elle n'a plus de vie"""
+    def __die(self):
+        pass
 
 
