@@ -3,9 +3,9 @@ import json
 
 
 class Level:
-    def __init__(self, imagePath, currentLevel):
+    def __init__(self, imagePath):
+        self.level_number = None
         self.bricks = []
-        self.level_number = currentLevel
         self.load_background_image(imagePath)
 
     def load_background_image(self, imagePath):
@@ -27,8 +27,9 @@ class Level:
 
     # Fill the Brick list with the bricks from the JSON file
     # The JSON file is named "levelX.json", where X is the level number.
-    def instantiate(self):
-        json_filename = f"level{self.level_number}.json"
+    def instantiate(self, levelNumber):
+        self.level_number = levelNumber
+        json_filename = f"level{levelNumber}.json"
         json_path = os.path.join("./levels/", json_filename)
 
         if os.path.exists(json_path):
