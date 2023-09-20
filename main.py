@@ -3,7 +3,7 @@ Platformer Game
 """
 import arcade
 from constant import *
-from views.MenuView import MenuView
+from Views.MenuView import MenuView
 
 
 def main():
