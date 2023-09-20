@@ -13,7 +13,6 @@ class Brick:
     def __updateHealthPoint(self, healthPointToRemove):
         if (self.healthPoint - healthPointToRemove <= 0):
             self.die()
-
             return
 
         self.healthPoint -= healthPointToRemove
