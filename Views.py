@@ -171,10 +171,11 @@ class GameView(arcade.View):
             self.platform.toMoveUpward = True
             self.Ball.sprite.change_x = self.setRandomBallForce()
             self.Ball.sprite.change_y *= -1
-
+            '''
             # Détection si y'a triche
             if self.hasBallTouchedSides(self.platform, self.Ball):
                 print('TRICHEUR')
+            '''
 
     def collisionBetween(self, sprite1, sprite2):
         return sprite1.collides_with_sprite(sprite2)
@@ -207,7 +208,19 @@ class GameView(arcade.View):
     def setRandomBallForce(self):
         return random.randint(-6, 6)
 
+    def on_mouse_press(self, x, y, button, key_modifiers):
+        """ Called when the user presses a mouse button. """
+        # Récupère le sprite cliqués
+        # cards = arcade.get_sprites_at_point((x, y), *sprite list des blocks*)
+
+    def on_mouse_scroll(self, x: int, y: int, scroll_x: int, scroll_y: int):
+        theta = scroll_y * 2
+        print(theta)
+        self.platform.angle += theta
+
+    '''
     def hasBallTouchedSides(self, platform, ball):
         platformY = platform.get_hit_box()
         print(platformY)
         return False
+    '''
