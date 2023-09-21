@@ -42,5 +42,22 @@
             "health": 1,
             "scale": 0.2
         }
+    ],
+        "level3": [
+        {
+            "bricksNumber": 2,
+            "health": 1,
+            "scale": 0.2
+        },
+        {
+            "bricksNumber": 1,
+            "health": 1,
+            "scale": 0.2
+        },
+        {
+            "bricksNumber": 8,
+            "health": 10000,
+            "scale": 0.2
+        }
     ]
 }
