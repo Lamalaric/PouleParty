@@ -272,9 +272,9 @@ class GameView(arcade.View):
             self.time_taken += delta_time
 
             #winning
-            #if (sprite list (brique))
-                #game_won_view = GameWinView(self.time_taken , self.score)
-                #self.window.show_view(game_won_view)
+            if len(self.scene["Bricks"]) == 0 :
+                game_won_view = GameWinView(self.time_taken , self.score)
+                self.window.show_view(game_won_view)
 
 
 
@@ -317,6 +317,8 @@ class GameView(arcade.View):
             return True
         return False
 
+    def click_brique(self):
+        return
 
     def setRandomBallForce(self):
         return random.randint(-6, 6)
@@ -378,14 +380,14 @@ class GameWinView(arcade.View):
 
 
     def on_show_view(self):
-        arcade.set_background_color(arcade.color.ORANGE_RED)
+        arcade.set_background_color(arcade.color.BLACK_OLIVE)
 
     def on_draw(self):
         self.clear()
         """
         Draw "Game over" across the screen.
         """
-        arcade.draw_text("Game Over", SCREEN_WIDTH/2, SCREEN_HEIGHT / 2, arcade.color.WHITE, 54,anchor_x="center")
+        arcade.draw_text("YOU WON !", SCREEN_WIDTH/2, SCREEN_HEIGHT / 2, arcade.color.WHITE, 54,anchor_x="center")
         arcade.draw_text("Click to restart", SCREEN_WIDTH/2, SCREEN_HEIGHT / 2 - 75, arcade.color.WHITE, 24,anchor_x="center")
 
         #timer
@@ -407,8 +409,8 @@ class GameWinView(arcade.View):
                          anchor_x="center")
 
         arcade.draw_text(f"Score : {self.score}",
-                         SCREEN_WIDTH / 2 - 100,
-                         250,
+                         SCREEN_WIDTH / 2 ,
+                         SCREEN_HEIGHT - 100,
                          arcade.color.GRAY,
                          font_size=15,
                          anchor_x="center")
