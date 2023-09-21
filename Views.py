@@ -138,7 +138,6 @@ class GameView(arcade.View):
         self.Ball.update()
         # Corrige le bug de plateforme qui tombe en la remontant
         if self.platform.toMoveUpward:
-            print(self.platform.toMoveUpward)
             self.platform.moveUpward()
 
         # Vérifie la collision balle - mur pour rebondir
