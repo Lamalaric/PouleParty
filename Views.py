@@ -1,4 +1,5 @@
 import arcade
+import random
 from Controllers.Wall import Wall
 from Controllers.Ball import Ball
 from Controllers.Platform import Platform
@@ -140,6 +141,7 @@ class GameView(arcade.View):
         self.Ball.update()
         self.collisionBallWall()
         if self.collisionBallPlatform():
+            self.Ball.sprite.change_x = self.setRandomBallForce()
             self.Ball.sprite.change_y *= -1
 
     def collisionBetween(self, sprite1, sprite2):
@@ -170,3 +172,6 @@ class GameView(arcade.View):
             self.Ball.sprite.change_x *= -1
             return True
         return False
+
+    def setRandomBallForce(self):
+        return random.randint(-6, 6)
