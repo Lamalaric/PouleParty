@@ -1,18 +1,16 @@
 import os
 import json
 
-import Brick
+from Controllers.Brick import Brick
 
 
 class Level:
-    def __init__(self, imagePath):
+    def __init__(self, levelNumber, imagePath):
         self.level_number = None
         self.bricks = []
-        self.load_background_image(imagePath)
-
-    def load_background_image(self, imagePath):
-        # jsp
-        pass
+        self.background = imagePath
+        self.levelNumber = levelNumber
+        self.instantiate()
 
     def isLevelCompleted(self):
         return len(self.bricks) == 0
@@ -29,9 +27,8 @@ class Level:
 
     # Fill the Brick list with the bricks from the JSON file
     # The JSON file is named "levelX.json", where X is the level number.
-    def instantiate(self, levelNumber):
-        self.level_number = levelNumber
-        json_filename = f"level{levelNumber}.json"
+    def instantiate(self):
+        json_filename = f"level{self.levelNumber}.json"
         json_path = os.path.join("./levels/", json_filename)
 
         if os.path.exists(json_path):
@@ -39,7 +36,7 @@ class Level:
                 data = json.load(json_file)
 
                 for brick_data in data:
-                    brick = Brick.Brick.fromJson(brick_data)
+                    brick = Brick.fromJson(brick_data)
                     self.bricks.append(brick)
         else:
             print(f"JSON file '{json_filename}' not found for level {self.level_number}.")

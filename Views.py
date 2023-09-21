@@ -1,5 +1,6 @@
 import arcade
 import random
+from Controllers.Level import Level
 from Controllers.Wall import Wall
 from Controllers.Ball import Ball
 from Controllers.Platform import Platform
@@ -73,6 +74,7 @@ class GameView(arcade.View):
         self.RightWall = None
         self.LeftWall = None
         self.Ball = None
+        self.level = Level(1, "./Assets/fond_jeu.jpg")
 
         # Our physics engine
         self.physics_engine = None
@@ -104,7 +106,8 @@ class GameView(arcade.View):
             self.platform.sprite, self.scene.get_sprite_list("Walls")
         )
 
-        self.background = arcade.load_texture("./Assets/fond_jeu.jpg")
+        # self.background = arcade.load_texture("./Assets/fond_jeu.jpg")
+        self.background = arcade.load_texture(self.level.background)
 
     def on_draw(self):
         """Render the screen."""

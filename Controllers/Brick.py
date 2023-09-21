@@ -5,13 +5,12 @@ class Brick(arcade.Sprite):
     """Classe decrivant le fonctionnement d'une brick."""
 
     """Constructeur de classe"""
-    def __init__(self, healthPoint, position, size, type):
+    def __init__(self, healthPoint, position, size):
         super().__init__()
         self.__healthPoint = healthPoint
         self.__position = position
         self.__size = size
         self.__imagePath = f"./assets/brique.png"
-        self.__sprite = arcade.Sprite(self.__imagePath, self.__size)
 
     """Retirer des points de vie à la brick"""
     def __updateHealthPoint(self, healthPointToRemove):

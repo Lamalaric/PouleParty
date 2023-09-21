@@ -2,34 +2,45 @@
     {
         "hp": 1,
         "position": {
-            "x": 100,
-            "y": 200
+            "x": 0,
+            "y": 0
         },
         "size": {
-            "height": 30,
-            "width": 60
-        }
-    },
-    {
-        "hp": 2,
-        "position": {
-            "x": 200,
-            "y": 250
-        },
-        "size": {
-            "height": 30,
+            "height": 50,
             "width": 50
         }
     },
     {
         "hp": 1,
         "position": {
-            "x": 300,
-            "y": 300
+            "x": 50,
+            "y": 0
         },
         "size": {
-            "height": 30,
-            "width": 70
+            "height": 50,
+            "width": 50
+        }
+    },
+    {
+        "hp": 1,
+        "position": {
+            "x": 0,
+            "y": 50
+        },
+        "size": {
+            "height": 50,
+            "width": 50
+        }
+    },
+        {
+        "hp": 1,
+        "position": {
+            "x": 50,
+            "y": 50
+        },
+        "size": {
+            "height": 50,
+            "width": 50
         }
     }
 ]
