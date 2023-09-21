@@ -97,8 +97,6 @@ class GameView(arcade.View):
     Main application class.
     """
 
-
-
     def __init__(self):
 
         # Call the parent class and set up the window
@@ -158,6 +156,7 @@ class GameView(arcade.View):
 
         # Ajout balle
         self.Ball = Ball()
+
         self.scene.add_sprite("Walls", self.Ball.sprite)
 
         # Create the 'physics engine'
