@@ -20,11 +20,6 @@ class MenuView(arcade.View):
         self.clear()
         arcade.draw_lrwh_rectangle_textured(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, self.background)
 
-        arcade.draw_text("Poule Party", SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2,
-                         arcade.color.WHITE, font_size=50, anchor_x="center")
-        arcade.draw_text("Click to advance", SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 - 75,
-                         arcade.color.WHITE, font_size=20, anchor_x="center")
-
     def on_mouse_press(self, _x, _y, _button, _modifiers):
         game_view = GameView()
         self.window.show_view(game_view)
@@ -275,7 +270,7 @@ class GameView(arcade.View):
             self.time_taken += delta_time
 
             #winning
-            #if (sprite list (brique))
+            #if (sprite list (vide))
                 #game_won_view = GameWinView(self.time_taken , self.score)
                 #self.window.show_view(game_won_view)
 
@@ -326,6 +321,8 @@ class GameView(arcade.View):
             return True
         return False
 
+    def click_brique(self):
+        return
 
     def setRandomBallForce(self):
         return random.randint(-6, 6)
