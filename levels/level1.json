@@ -1,35 +1,27 @@
 [
     {
-        "hp": 1,
-        "position": {
-            "x": 100,
-            "y": 200
-        },
-        "size": {
-            "height": 30,
-            "width": 60
-        }
+        "bricksNumber": 5,
+        "health": 1,
+        "scale": 0.2
     },
     {
-        "hp": 2,
-        "position": {
-            "x": 200,
-            "y": 250
-        },
-        "size": {
-            "height": 30,
-            "width": 50
-        }
+        "bricksNumber": 4,
+        "health": 1,
+        "scale": 0.2
     },
     {
-        "hp": 1,
-        "position": {
-            "x": 300,
-            "y": 300
-        },
-        "size": {
-            "height": 30,
-            "width": 70
-        }
+        "bricksNumber": 3,
+        "health": 1,
+        "scale": 0.2
+    },
+    {
+        "bricksNumber": 2,
+        "health": 1,
+        "scale": 0.2
+    },
+    {
+        "bricksNumber": 1,
+        "health": 1,
+        "scale": 0.2
     }
 ]
