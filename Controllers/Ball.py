@@ -15,7 +15,6 @@ class Ball:
 
     def modify_damage(self):
         self.damage = 1 + 0.5 * self.sprite.width
-        print(self.damage)
 
     def update(self):
         self.sprite.update()  # update the sprite

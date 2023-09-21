@@ -343,16 +343,16 @@ class GameView(arcade.View):
     def on_mouse_press(self, _x, _y, _button, _modifiers):
         # Récupère le sprite cliqués
         # cards = arcade.get_sprites_at_point((x, y), *sprite list des blocks*)
-        if self.wait == True :
+        if self.wait:
             self.Ball.sprite.change_x = 0
             self.Ball.sprite.change_y = - BALL_SPEED
             self.wait = False
 
     def on_mouse_scroll(self, x: int, y: int, scroll_x: int, scroll_y: int):
-        # print(scroll_y)
-        self.Ball.sprite.width += scroll_y
-        self.Ball.sprite.height += scroll_y
-        self.Ball.modify_damage()
+        if 150 >= self.Ball.sprite.width >= 3:
+            self.Ball.sprite.width += scroll_y
+            self.Ball.sprite.height += scroll_y
+            self.Ball.modify_damage()
 
 class GameWinView(arcade.View):
     def __init__(self, timer,score):
