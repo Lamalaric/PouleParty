@@ -33,16 +33,14 @@ class Brick(arcade.Sprite):
             health = data["health"]
             size = data["scale"]
             sprite = arcade.Sprite(f"./assets/brique.png", size)
+            x = SCREEN_WIDTH / 2 // data["bricksNumber"]
 
-            x = SCREEN_WIDTH / data["bricksNumber"]
-            x += sprite.width * i + 1
-            position = (x, y)
+            x += sprite.width - (SCREEN_WIDTH / 2 * i)
+            sprite.position = (x, y)
 
-            brick = Brick(health, position, size, sprite)
-
+            brick = Brick(health, sprite.position, size, sprite)
 
             bricksLine.append(brick)
-            x += 50
 
         return bricksLine
 

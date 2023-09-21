@@ -173,11 +173,11 @@ class GameView(arcade.View):
 
         for brickline in self.level.brickLines:
             for brick in brickline:
-                self.scene.add_sprite("Brick", brick.sprite)
+                self.scene.add_sprite("Bricks", brick.sprite)
 
-        self.physics_engine = arcade.PhysicsEngineSimple(
-            self.Ball.sprite, self.scene.get_sprite_list("Bricks")
-        )
+        # self.physics_engine = arcade.PhysicsEngineSimple(
+        #    self.Ball.sprite, self.scene.get_sprite_list("Bricks")
+        # )
 
     def on_draw(self):
         """Render the screen."""
