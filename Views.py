@@ -7,15 +7,22 @@ from constant import *
 
 
 class MenuView(arcade.View):
+
+    def __init__(self):
+        super().__init__()
+        self.background = None
+
     def on_show_view(self):
-        arcade.set_background_color(arcade.color.WHITE)
+        self.background = arcade.load_texture("./Assets/maxresdefault.png")
 
     def on_draw(self):
         self.clear()
-        arcade.draw_text("Menu Screen", SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2,
-                         arcade.color.BLACK, font_size=50, anchor_x="center")
+        arcade.draw_lrwh_rectangle_textured(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, self.background)
+
+        arcade.draw_text("Poule Party", SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2,
+                         arcade.color.WHITE, font_size=50, anchor_x="center")
         arcade.draw_text("Click to advance", SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 - 75,
-                         arcade.color.GRAY, font_size=20, anchor_x="center")
+                         arcade.color.WHITE, font_size=20, anchor_x="center")
 
     def on_mouse_press(self, _x, _y, _button, _modifiers):
         game_view = GameView()
@@ -65,7 +72,8 @@ class GameView(arcade.View):
 
         # Our Scene Object
         self.scene = None
-
+        self.sound = arcade.Sound("./Assets/Chicken Techno_8410qUT4QtA.mp3", streaming=False)
+        self.media_player = self.sound.play(pan=0.5, volume=0.5,loop=True)
         self.background = None
         # Separate variable that holds the player sprite
         self.platform = None
@@ -76,6 +84,8 @@ class GameView(arcade.View):
 
         # Our physics engine
         self.physics_engine = None
+        self.left_key = False
+        self.right_key = False
 
     def setup(self):
         """Set up the game here. Call this function to restart the game."""
@@ -117,18 +127,30 @@ class GameView(arcade.View):
         # Draw our Scene
         self.scene.draw()
 
+
     def on_key_press(self, key, modifiers):
         """Called whenever a key is pressed."""
 
         if key == arcade.key.RIGHT or key == arcade.key.W:
+            self.right_key = True
             self.platform.move_right()
         elif key == arcade.key.LEFT or key == arcade.key.S:
+            self.left_key = True
             self.platform.move_left()
     def on_key_release(self, key, modifiers):
         """Called when the user releases a key."""
-
-        if (key == arcade.key.RIGHT or key == arcade.key.W) or (key == arcade.key.LEFT or key == arcade.key.S):
-            self.platform.stop()
+        if key == arcade.key.RIGHT or key == arcade.key.W:
+            self.right_key = False
+            if self.left_key:
+                self.platform.move_left()
+            else:
+                self.platform.stop()
+        if key == arcade.key.LEFT or key == arcade.key.S:
+            self.left_key = False
+            if self.right_key:
+                self.platform.move_right()
+            else:
+                self.platform.stop()
 
     def on_update(self, delta_time):
         """Movement and game logic"""
@@ -161,6 +183,7 @@ class GameView(arcade.View):
         if self.Ball.sprite.bottom <= 0:
             game_over_view = GameOverView()
             self.window.show_view(game_over_view)
+            self.sound.stop(self.media_player)
             # ViewManager.display_game_over(self.window)
         # Mur haut
         if self.collisionBetween(self.TopWall.sprite, self.Ball.sprite):
