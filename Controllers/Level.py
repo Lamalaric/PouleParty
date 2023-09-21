@@ -25,6 +25,21 @@ class Level:
         for brick in bricks_to_remove:
             self.brickLines.remove(brick)
 
+    def isAnyLevelLeft(self):
+        json_filename = f"levels.json"
+        json_path = os.path.join("./levels/", json_filename)
+
+        if os.path.exists(json_path):
+            with open(json_path, 'r') as json_file:
+                data = json.load(json_file)
+                level_data = data.get(f"level{self.levelNumber + 1}")
+
+                if level_data:
+                    return True
+
+        return False
+
+
     # Fill the Brick list with the bricks from the JSON file
     # The JSON file is named "levelX.json", where X is the level number.
     def instantiate(self):
