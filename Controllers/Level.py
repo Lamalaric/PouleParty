@@ -37,7 +37,7 @@ class Level:
                 level_data = data.get(f"level{self.levelNumber}")
 
                 if level_data:
-                    y = SCREEN_HEIGHT - 50
+                    y = SCREEN_HEIGHT - 150
                     for brick_data in level_data:
                         self.brickLines.append(Brick.fromJson(brick_data, y))
                         y -= 65
