@@ -10,25 +10,25 @@ class Brick(arcade.Sprite):
         self.__healthPoint = healthPoint
         self.__position = position
         self.__size = size
-        self.__type = type
-        self.__imagePath = f"./assets/{type}.png"
+        self.__imagePath = f"./assets/brique.png"
         self.__sprite = arcade.Sprite(self.__imagePath, self.__size)
 
     """Retirer des points de vie à la brick"""
     def __updateHealthPoint(self, healthPointToRemove):
-        if (self.healthPoint - healthPointToRemove <= 0):
+        if self.__healthPoint - healthPointToRemove <= 0:
             self.die()
             return
 
-        self.healthPoint -= healthPointToRemove
+        self.__healthPoint -= healthPointToRemove
 
-        return self.healthPoint
+        return self.__healthPoint
 
     @staticmethod
     def fromJson(data):
         hp = data["hp"]
         position = data["position"]
         size = data["size"]
+
         return Brick(hp, position, size)
 
     """Détruire la brick lorsqu'elle n'a plus de vie"""
