@@ -19,11 +19,6 @@
             "bricksNumber": 2,
             "health": 1,
             "scale": 0.2
-        },
-        {
-            "bricksNumber": 1,
-            "health": 1,
-            "scale": 0.2
         }
     ]
 }
