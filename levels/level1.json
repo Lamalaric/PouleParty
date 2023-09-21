@@ -1,46 +1,6 @@
 [
     {
-        "hp": 1,
-        "position": {
-            "x": 0,
-            "y": 0
-        },
-        "size": {
-            "height": 50,
-            "width": 50
-        }
-    },
-    {
-        "hp": 1,
-        "position": {
-            "x": 50,
-            "y": 0
-        },
-        "size": {
-            "height": 50,
-            "width": 50
-        }
-    },
-    {
-        "hp": 1,
-        "position": {
-            "x": 0,
-            "y": 50
-        },
-        "size": {
-            "height": 50,
-            "width": 50
-        }
-    },
-        {
-        "hp": 1,
-        "position": {
-            "x": 50,
-            "y": 50
-        },
-        "size": {
-            "height": 50,
-            "width": 50
-        }
+        "bricksNumber": 5,
+        "brickHealth": 1
     }
 ]

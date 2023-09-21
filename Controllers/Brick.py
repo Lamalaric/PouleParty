@@ -11,6 +11,7 @@ class Brick(arcade.Sprite):
         self.__position = position
         self.__size = size
         self.__imagePath = f"./assets/brique.png"
+        self.sprite = arcade.Sprite(self.__imagePath, size)
 
     """Retirer des points de vie à la brick"""
     def __updateHealthPoint(self, healthPointToRemove):
