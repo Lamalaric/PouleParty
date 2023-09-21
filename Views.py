@@ -101,7 +101,7 @@ class GameView(arcade.View):
         # Our Scene Object
         self.bricks = None
         self.scene = None
-        self.sound = arcade.Sound("./Assets/Chicken Techno_8410qUT4QtA.mp3", streaming=False)
+        self.sound = arcade.Sound("./Assets/Chicken Techno_2.mp3", streaming=False)
         self.media_player = self.sound.play(pan=0.5, volume=0.5,loop=True)
         self.background = None
         # Separate variable that holds the player sprite
