@@ -335,6 +335,7 @@ class GameView(arcade.View):
             self.wait = False
 
     def on_mouse_scroll(self, x: int, y: int, scroll_x: int, scroll_y: int):
-        print(scroll_y)
+        # print(scroll_y)
         self.Ball.sprite.width += scroll_y
         self.Ball.sprite.height += scroll_y
+        self.Ball.modify_damage()
