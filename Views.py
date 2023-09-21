@@ -157,8 +157,10 @@ class GameView(arcade.View):
         # self.background = arcade.load_texture("./Assets/fond_jeu.jpg")
         self.background = arcade.load_texture(self.level.background)
 
+        bricksLeft = arcade.SpriteList()
         for brickline in self.level.brickLines:
             for brick in brickline:
+                bricksLeft.append(brick.sprite)
                 self.scene.add_sprite("Bricks", brick.sprite)
 
     def on_draw(self):

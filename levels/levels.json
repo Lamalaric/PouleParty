@@ -2,7 +2,7 @@
     "level1": [
         {
             "bricksNumber": 10,
-            "health": 1,
+            "health": 3,
             "scale": 0.2
         },
         {

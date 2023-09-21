@@ -6,8 +6,9 @@ class Brick(arcade.Sprite):
 
     """Constructeur de classe"""
 
-    def __init__(self, healthPoint, position, size, sprite):
+    def __init__(self, healthPoint, position, size, sprite, id):
         super().__init__()
+        self.id = id
         self.healthPoint = healthPoint
         self.position = position
         self.size = size
@@ -41,7 +42,8 @@ class Brick(arcade.Sprite):
 
             sprite.position = (x, y)
 
-            brick = Brick(health, sprite.position, size, sprite)
+            # Concat x and y as a string to create a unique id
+            brick = Brick(health, sprite.position, size, sprite, str(x) + "-" + str(y))
 
             bricksLine.append(brick)
 
