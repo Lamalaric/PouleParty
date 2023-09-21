@@ -157,9 +157,9 @@ class GameView(arcade.View):
         self.scene.add_sprite("Ball", self.Ball.sprite)
 
         # Create the 'physics engine'
-        self.physics_engine = arcade.PhysicsEngineSimple(
-            self.platform.sprite, self.scene.get_sprite_list("Walls")
-        )
+        # self.physics_engine = arcade.PhysicsEngineSimple(
+        #     self.platform.sprite, self.scene.get_sprite_list("Walls")
+        # )
 
         # self.background = arcade.load_texture("./Assets/fond_jeu.jpg")
         self.background = arcade.load_texture(self.level.background)
@@ -218,39 +218,38 @@ class GameView(arcade.View):
                          font_size=15,
                          anchor_x="center")
 
-    def on_key_press(self, key, modifiers):
-        """Called whenever a key is pressed."""
-
-        if key == arcade.key.RIGHT or key == arcade.key.W:
-            self.right_key = True
-            self.platform.move_right()
-        elif key == arcade.key.LEFT or key == arcade.key.S:
-            self.left_key = True
-            self.platform.move_left()
-    def on_key_release(self, key, modifiers):
-        """Called when the user releases a key."""
-        if key == arcade.key.RIGHT or key == arcade.key.W:
-            self.right_key = False
-            if self.left_key:
-                self.platform.move_left()
-            else:
-                self.platform.stop()
-        if key == arcade.key.LEFT or key == arcade.key.S:
-            self.left_key = False
-            if self.right_key:
-                self.platform.move_right()
-            else:
-                self.platform.stop()
+    # def on_key_press(self, key, modifiers):
+    #     """Called whenever a key is pressed."""
+    #
+    #     if key == arcade.key.RIGHT or key == arcade.key.W:
+    #         self.right_key = True
+    #         self.platform.move_right()
+    #     elif key == arcade.key.LEFT or key == arcade.key.S:
+    #         self.left_key = True
+    #         self.platform.move_left()
+    # def on_key_release(self, key, modifiers):
+    #     """Called when the user releases a key."""
+    #     if key == arcade.key.RIGHT or key == arcade.key.W:
+    #         self.right_key = False
+    #         if self.left_key:
+    #             self.platform.move_left()
+    #         else:
+    #             self.platform.stop()
+    #     if key == arcade.key.LEFT or key == arcade.key.S:
+    #         self.left_key = False
+    #         if self.right_key:
+    #             self.platform.move_right()
+    #         else:
+    #             self.platform.stop()
 
     def on_update(self, delta_time):
         """Movement and game logic"""
-
-        # Move the player with the physics engine
-        self.physics_engine.update()
-
         self.Ball.update()
 
         if not self.wait:
+            # Déplacement de la balle
+            self.Ball.update()
+
             # Corrige le bug de plateforme qui tombe en la remontant
             if self.platform.toMoveUpward:
                 self.platform.moveUpward()
@@ -339,7 +338,9 @@ class GameView(arcade.View):
         game_over_view = GameOverView(self.time_taken, self.score)
         self.window.show_view(game_over_view)
 
-
+    def on_mouse_motion(self, x, y, dx, dy):
+        """ Handle Mouse Motion """
+        self.platform.sprite.center_x = x
     def on_mouse_press(self, _x, _y, _button, _modifiers):
         # Récupère le sprite cliqués
         # cards = arcade.get_sprites_at_point((x, y), *sprite list des blocks*)
@@ -347,7 +348,6 @@ class GameView(arcade.View):
             self.Ball.sprite.change_x = 0
             self.Ball.sprite.change_y = - BALL_SPEED
             self.wait = False
-
     def on_mouse_scroll(self, x: int, y: int, scroll_x: int, scroll_y: int):
         if 150 >= self.Ball.sprite.width >= 3:
             self.Ball.sprite.width += scroll_y
