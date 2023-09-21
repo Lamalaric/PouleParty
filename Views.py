@@ -73,8 +73,8 @@ class GameOverView(arcade.View):
                          anchor_x="center")
 
         arcade.draw_text(f"Score : {self.score}",
-                         SCREEN_WIDTH / 2 - 100,
-                         250,
+                         SCREEN_WIDTH / 2,
+                        SCREEN_HEIGHT / 2 - 100,
                          arcade.color.GRAY,
                          font_size=15,
                          anchor_x="center")
@@ -100,8 +100,8 @@ class GameView(arcade.View):
         # Our Scene Object
         self.bricks = None
         self.scene = None
-        self.sound = arcade.Sound("./Assets/Chicken Techno_8410qUT4QtA.mp3", streaming=False)
-        self.media_player = self.sound.play(pan=0.5, volume=0.5, loop=True)
+        self.sound = arcade.Sound("./Assets/Chicken Techno_2.mp3", streaming=False)
+        self.media_player = self.sound.play(pan=0.5, volume=0.5,loop=True)
         self.background = None
         # Separate variable that holds the player sprite
         self.platform = None
@@ -280,8 +280,6 @@ class GameView(arcade.View):
             return True
         return False
 
-    def click_brique(self):
-        return
 
     def setRandomBallForce(self):
         return random.randint(-6, 6)
@@ -315,6 +313,13 @@ class GameView(arcade.View):
             self.Ball.sprite.change_x = 0
             self.Ball.sprite.change_y = - BALL_SPEED
             self.wait = False
+        else:
+            bricksClicked = arcade.get_sprites_at_point((_x, _y), self.scene["Bricks"])
+            if len(bricksClicked) > 0:
+                for brick in bricksClicked:
+                    print(brick)
+                    brick.kill()
+
     def on_mouse_scroll(self, x: int, y: int, scroll_x: int, scroll_y: int):
         multiplicator = 0
         if scroll_y > 0: multiplicator = 3
