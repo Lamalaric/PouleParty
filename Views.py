@@ -181,7 +181,8 @@ class GameView(arcade.View):
         arcade.draw_lrwh_rectangle_textured(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, self.background)
 
         if self.wait :
-            arcade.draw_text("Click to continue", SCREEN_WIDTH / 2 , SCREEN_HEIGHT / 2 +100, arcade.color.BLACK, 24)
+            pass
+            # arcade.draw_text("Click to continue", SCREEN_WIDTH / 2 , SCREEN_HEIGHT / 2 +100, arcade.color.BLACK, 24)
 
         # Draw our Scene
         self.scene.draw()
@@ -288,15 +289,9 @@ class GameView(arcade.View):
         # Mur bas
         if self.Ball.sprite.bottom <= 0:
             if self.vie == 0 :
-                game_over_view = GameOverView(self.time_taken , self.score)
-                self.window.show_view(game_over_view)
+                self.endGame()
             else :
-                self.vie -= 1
-                self.Ball.sprite.center_x = SCREEN_WIDTH / 2
-                self.Ball.sprite.center_y = SCREEN_HEIGHT / 2
-                self.Ball.sprite.change_x = 0
-                self.Ball.sprite.change_y = 0
-                self.wait = True
+                self.loseLife()
                 return True
             self.sound.stop(self.media_player)
             # ViewManager.display_game_over(self.window)
@@ -328,20 +323,38 @@ class GameView(arcade.View):
     def setRandomBallForce(self):
         return random.randint(-6, 6)
 
+    def loseLife(self):
+        # perd vie
+        self.vie -= 1
+        # remet la taille de base
+        self.Ball.sprite.width = 25.6
+        self.Ball.sprite.height = 25.6
+        # replace la balle au centre
+        self.Ball.sprite.center_x = SCREEN_WIDTH / 2
+        self.Ball.sprite.center_y = SCREEN_HEIGHT / 2 -50
+        # vitesse à zéro
+        self.Ball.sprite.change_x = 0
+        self.Ball.sprite.change_y = 0
+        # met en pause le jeu
+        self.wait = True
+    def endGame(self):
+        game_over_view = GameOverView(self.time_taken, self.score)
+        self.window.show_view(game_over_view)
+
 
     def on_mouse_press(self, _x, _y, _button, _modifiers):
         # Récupère le sprite cliqués
         # cards = arcade.get_sprites_at_point((x, y), *sprite list des blocks*)
-        if self.wait == True :
+        if self.wait:
             self.Ball.sprite.change_x = 0
             self.Ball.sprite.change_y = - BALL_SPEED
             self.wait = False
 
     def on_mouse_scroll(self, x: int, y: int, scroll_x: int, scroll_y: int):
-        # print(scroll_y)
-        self.Ball.sprite.width += scroll_y
-        self.Ball.sprite.height += scroll_y
-        self.Ball.modify_damage()
+        if 150 >= self.Ball.sprite.width >= 3:
+            self.Ball.sprite.width += scroll_y
+            self.Ball.sprite.height += scroll_y
+            self.Ball.modify_damage()
 
 class GameWinView(arcade.View):
     def __init__(self, timer,score):
