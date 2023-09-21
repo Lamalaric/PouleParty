@@ -28,14 +28,17 @@ class Brick(arcade.Sprite):
     @staticmethod
     def fromJson(data, y):
         bricksLine = []
+        health = data["health"]
+        size = data["scale"]
+
+        brick_spacing = SCREEN_WIDTH / (data["bricksNumber"] + 1)
 
         for i in range(data["bricksNumber"]):
-            health = data["health"]
-            size = data["scale"]
-            sprite = arcade.Sprite(f"./assets/brique.png", size)
-            x = SCREEN_WIDTH / 2 // data["bricksNumber"]
 
-            x += sprite.width - (SCREEN_WIDTH / 2 * i)
+            sprite = arcade.Sprite(f"./assets/brique.png", size)
+
+            x = (i + 1) * brick_spacing
+
             sprite.position = (x, y)
 
             brick = Brick(health, sprite.position, size, sprite)
