@@ -1,5 +1,6 @@
 import arcade
 import random
+from Controllers.Level import Level
 from Controllers.Wall import Wall
 from Controllers.Ball import Ball
 from Controllers.Platform import Platform
@@ -96,15 +97,13 @@ class GameView(arcade.View):
     """
     Main application class.
     """
-
-
-
     def __init__(self):
 
         # Call the parent class and set up the window
         super().__init__()
 
         # Our Scene Object
+        self.bricks = None
         self.scene = None
         self.sound = arcade.Sound("./Assets/Chicken Techno_8410qUT4QtA.mp3", streaming=False)
         self.media_player = self.sound.play(pan=0.5, volume=0.5,loop=True)
@@ -115,6 +114,8 @@ class GameView(arcade.View):
         self.RightWall = None
         self.LeftWall = None
         self.Ball = None
+        self.level = Level(1, "./Assets/fond_jeu.jpg")
+
 
         # Our physics engine
         self.physics_engine = None
@@ -134,7 +135,6 @@ class GameView(arcade.View):
         self.score = 0
         self.vie = 3
         self.wait = False
-
 
     def setup(self):
         """Set up the game here. Call this function to restart the game."""
@@ -158,14 +158,23 @@ class GameView(arcade.View):
 
         # Ajout balle
         self.Ball = Ball()
-        self.scene.add_sprite("Walls", self.Ball.sprite)
+        self.scene.add_sprite("Ball", self.Ball.sprite)
 
         # Create the 'physics engine'
         self.physics_engine = arcade.PhysicsEngineSimple(
             self.platform.sprite, self.scene.get_sprite_list("Walls")
         )
 
-        self.background = arcade.load_texture("./Assets/fond_jeu.jpg")
+        # self.background = arcade.load_texture("./Assets/fond_jeu.jpg")
+        self.background = arcade.load_texture(self.level.background)
+
+        for brickline in self.level.brickLines:
+            for brick in brickline:
+                self.scene.add_sprite("Bricks", brick.sprite)
+
+        # self.physics_engine = arcade.PhysicsEngineSimple(
+        #    self.Ball.sprite, self.scene.get_sprite_list("Bricks")
+        # )
 
     def on_draw(self):
         """Render the screen."""
@@ -244,8 +253,7 @@ class GameView(arcade.View):
 
         self.Ball.update()
 
-        if self.wait == False :
-
+        if not self.wait:
             # Corrige le bug de plateforme qui tombe en la remontant
             if self.platform.toMoveUpward:
                 self.platform.moveUpward()
@@ -258,8 +266,10 @@ class GameView(arcade.View):
                 self.platform.toMoveUpward = True
                 self.Ball.sprite.change_x = self.setRandomBallForce()
                 self.Ball.sprite.change_y *= -1
-            # collision brique-balle
-            # self.score += 5
+            # Vérifie la collision balle - brique
+            if self.collisionBallBricks():
+                self.score += 5
+
 
             # Accumulate the total time
             self.time_taken += delta_time
@@ -307,17 +317,33 @@ class GameView(arcade.View):
             self.Ball.sprite.change_x *= -1
             return True
         return False
+    def collisionBallBricks(self):
+        bricksTouched = arcade.check_for_collision_with_list(self.Ball.sprite, self.scene["Bricks"])
+        if len(bricksTouched) > 0:
+            self.Ball.sprite.change_y *= -1
+            for brick in bricksTouched:
+                brick.kill()
+            return True
+        return False
+
 
     def setRandomBallForce(self):
         return random.randint(-6, 6)
 
 
     def on_mouse_press(self, _x, _y, _button, _modifiers):
+        # Récupère le sprite cliqués
+        # cards = arcade.get_sprites_at_point((x, y), *sprite list des blocks*)
         if self.wait == True :
             self.Ball.sprite.change_x = 0
             self.Ball.sprite.change_y = - BALL_SPEED
             self.wait = False
 
+    def on_mouse_scroll(self, x: int, y: int, scroll_x: int, scroll_y: int):
+        # print(scroll_y)
+        self.Ball.sprite.width += scroll_y
+        self.Ball.sprite.height += scroll_y
+        self.Ball.modify_damage()
 
 class GameWinView(arcade.View):
     def __init__(self, timer,score):
