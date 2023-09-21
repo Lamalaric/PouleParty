@@ -1,13 +1,14 @@
 import os
 import json
 
+import arcade
+
 from Controllers.Brick import Brick
 from constant import *
 
 
 class Level:
     def __init__(self, levelNumber, imagePath):
-        self.level_number = None
         self.brickLines = []
         self.background = imagePath
         self.levelNumber = levelNumber
@@ -41,4 +42,4 @@ class Level:
                     self.brickLines.append(Brick.fromJson(brick_data, y))
                     y -= 65
         else:
-            print(f"JSON file '{json_filename}' not found for level {self.level_number}.")
+            print(f"JSON file '{json_filename}' not found for level {self.levelNumber}.")

@@ -97,15 +97,13 @@ class GameView(arcade.View):
     """
     Main application class.
     """
-
-
-
     def __init__(self):
 
         # Call the parent class and set up the window
         super().__init__()
 
         # Our Scene Object
+        self.bricks = None
         self.scene = None
         self.sound = arcade.Sound("./Assets/Chicken Techno_8410qUT4QtA.mp3", streaming=False)
         self.media_player = self.sound.play(pan=0.5, volume=0.5,loop=True)
@@ -138,7 +136,6 @@ class GameView(arcade.View):
         self.vie = 3
         self.wait = False
 
-
     def setup(self):
         """Set up the game here. Call this function to restart the game."""
 
@@ -161,7 +158,7 @@ class GameView(arcade.View):
 
         # Ajout balle
         self.Ball = Ball()
-        self.scene.add_sprite("Walls", self.Ball.sprite)
+        self.scene.add_sprite("Ball", self.Ball.sprite)
 
         # Create the 'physics engine'
         self.physics_engine = arcade.PhysicsEngineSimple(
@@ -256,8 +253,7 @@ class GameView(arcade.View):
 
         self.Ball.update()
 
-        if self.wait == False :
-
+        if not self.wait:
             # Corrige le bug de plateforme qui tombe en la remontant
             if self.platform.toMoveUpward:
                 self.platform.moveUpward()
@@ -270,8 +266,10 @@ class GameView(arcade.View):
                 self.platform.toMoveUpward = True
                 self.Ball.sprite.change_x = self.setRandomBallForce()
                 self.Ball.sprite.change_y *= -1
-            # collision brique-balle
-            # self.score += 5
+            # Vérifie la collision balle - brique
+            if self.collisionBallBricks():
+                self.score += 5
+
 
             # Accumulate the total time
             self.time_taken += delta_time
@@ -314,6 +312,15 @@ class GameView(arcade.View):
             self.Ball.sprite.change_x *= -1
             return True
         return False
+    def collisionBallBricks(self):
+        bricksTouched = arcade.check_for_collision_with_list(self.Ball.sprite, self.scene["Bricks"])
+        if len(bricksTouched) > 0:
+            self.Ball.sprite.change_y *= -1
+            for brick in bricksTouched:
+                brick.kill()
+            return True
+        return False
+
 
     def setRandomBallForce(self):
         return random.randint(-6, 6)
