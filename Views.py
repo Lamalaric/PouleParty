@@ -118,6 +118,7 @@ class GameView(arcade.View):
         self.Ball = None
         self.level = Level(1, "./Assets/fond_jeu.jpg")
 
+
         # Our physics engine
         self.physics_engine = None
         self.left_key = False
@@ -169,6 +170,14 @@ class GameView(arcade.View):
 
         # self.background = arcade.load_texture("./Assets/fond_jeu.jpg")
         self.background = arcade.load_texture(self.level.background)
+
+        for brickline in self.level.brickLines:
+            for brick in brickline:
+                self.scene.add_sprite("Brick", brick.sprite)
+
+        self.physics_engine = arcade.PhysicsEngineSimple(
+            self.Ball.sprite, self.scene.get_sprite_list("Bricks")
+        )
 
     def on_draw(self):
         """Render the screen."""
