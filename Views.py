@@ -99,12 +99,14 @@ class GameView(arcade.View):
         self.scene.add_sprite("Player", self.platform.sprite)
 
         # Ajout murs
-        self.LeftWall = Wall("./assets/lateral_wall.PNG", 0, SCREEN_HEIGHT / 2)
-        self.RightWall = Wall("./assets/lateral_wall.PNG", SCREEN_WIDTH, SCREEN_HEIGHT / 2)
-        self.TopWall = Wall("./assets/vertical_wall.PNG", SCREEN_WIDTH / 2, SCREEN_HEIGHT)
+        self.LeftWall = Wall("./assets/murV2.png", 0, SCREEN_HEIGHT / 2)
+        self.RightWall = Wall("./assets/murV2.png", SCREEN_WIDTH, SCREEN_HEIGHT / 2)
+        self.TopWall = Wall("./assets/murH2.png", SCREEN_WIDTH / 2, SCREEN_HEIGHT)
+
         self.scene.add_sprite("Walls", self.LeftWall.sprite)
         self.scene.add_sprite("Walls", self.RightWall.sprite)
         self.scene.add_sprite("Walls", self.TopWall.sprite)
+
         # Ajout balle
         self.Ball = Ball()
         self.scene.add_sprite("Walls", self.Ball.sprite)
@@ -160,7 +162,6 @@ class GameView(arcade.View):
         self.Ball.update()
         # Corrige le bug de plateforme qui tombe en la remontant
         if self.platform.toMoveUpward:
-            print(self.platform.toMoveUpward)
             self.platform.moveUpward()
 
         # Vérifie la collision balle - mur pour rebondir
