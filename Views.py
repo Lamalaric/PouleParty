@@ -349,10 +349,17 @@ class GameView(arcade.View):
             self.wait = False
 
     def on_mouse_scroll(self, x: int, y: int, scroll_x: int, scroll_y: int):
-        if 150 >= self.Ball.sprite.width >= 3:
-            self.Ball.sprite.width += scroll_y
-            self.Ball.sprite.height += scroll_y
-            self.Ball.modify_damage()
+        self.Ball.sprite.width += scroll_y*2
+        self.Ball.sprite.height += scroll_y*2
+
+        if 150 < self.Ball.sprite.width:
+            self.Ball.sprite.width = 150
+            self.Ball.sprite.height = 150
+        if 3 > self.Ball.sprite.width:
+            self.Ball.sprite.width = 3
+            self.Ball.sprite.height = 3
+
+        self.Ball.modify_damage()
 
 class GameWinView(arcade.View):
     def __init__(self, timer,score):
