@@ -126,6 +126,14 @@ class GameView(arcade.View):
             font_size=100,
             anchor_x="center",
         )
+        self.levelText = arcade.Text(
+            text=f"{self.level.levelNumber}",
+            start_x=SCREEN_WIDTH // 2,
+            start_y=SCREEN_HEIGHT // 2 - 50,
+            color=arcade.color.WHITE,
+            font_size=100,
+            anchor_x="center",
+        )
         self.score = 0
         self.vie = 3
         self.wait = False
@@ -134,6 +142,8 @@ class GameView(arcade.View):
         """Set up the game here. Call this function to restart the game."""
 
     def on_show_view(self):
+        # Affiche le niveau actuel
+        self.levelText.text = f"{self.level.levelNumber}"
 
         # Initialize Scene
         self.scene = arcade.Scene()
@@ -204,6 +214,13 @@ class GameView(arcade.View):
                          SCREEN_HEIGHT - 80,
                          arcade.color.BLACK,
                          font_size=15,
+                         anchor_x="center")
+
+        arcade.draw_text(f"{self.levelText.text}",
+                         SCREEN_WIDTH / 2,
+                         SCREEN_HEIGHT - 40,
+                         arcade.color.BLACK,
+                         font_size=24,
                          anchor_x="center")
 
     def on_update(self, delta_time):
