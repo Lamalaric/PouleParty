@@ -36,7 +36,7 @@ class Level:
         if os.path.exists(json_path):
             with open(json_path, 'r') as json_file:
                 data = json.load(json_file)
-                y = SCREEN_HEIGHT - 50
+                y = SCREEN_HEIGHT - 150
 
                 for brick_data in data:
                     self.brickLines.append(Brick.fromJson(brick_data, y))
