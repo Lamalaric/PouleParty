@@ -16,18 +16,23 @@ class Brick(arcade.Sprite):
 
     """Retirer des points de vie à la brick"""
     def __updateHealthPoint(self, healthPointToRemove):
-        if (self.healthPoint - healthPointToRemove <= 0)
+        if (self.healthPoint - healthPointToRemove <= 0):
             self.die()
-
             return
 
         self.healthPoint -= healthPointToRemove
 
         return self.healthPoint
 
+    @staticmethod
+    def fromJson(data):
+        hp = data["hp"]
+        position = data["position"]
+        size = data["size"]
+        return Brick(hp, position, size)
+
     """Détruire la brick lorsqu'elle n'a plus de vie"""
     def __die(self):
         pass
-
 
 
