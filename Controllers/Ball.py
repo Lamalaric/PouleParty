@@ -10,7 +10,7 @@ class Ball:
                                                    texture=arcade.load_texture("./Assets/egg.png",
                                                                                width=512,
                                                                                height=512,
-                                                                               hit_box_algorithm="Detailed")
+                                                                               hit_box_algorithm="Simple")
                                                    )  # set ball position in the middle
         self.sprite.position = SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 -50
         # randomize sprite direction and speed
