@@ -12,6 +12,10 @@ class Ball:
         self.sprite.change_x = 0
         self.sprite.change_y = BALL_SPEED
         self.damage = 1
+        print("width:")
+        print(self.sprite.width)
+        print("height:")
+        print(self.sprite.width)
 
     def modify_damage(self):
         self.damage = 1 + 0.5 * self.sprite.width

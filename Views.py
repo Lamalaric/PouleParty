@@ -287,15 +287,9 @@ class GameView(arcade.View):
         # Mur bas
         if self.Ball.sprite.bottom <= 0:
             if self.vie == 0 :
-                game_over_view = GameOverView(self.time_taken , self.score)
-                self.window.show_view(game_over_view)
+                self.endGame()
             else :
-                self.vie -= 1
-                self.Ball.sprite.center_x = SCREEN_WIDTH / 2
-                self.Ball.sprite.center_y = SCREEN_HEIGHT / 2
-                self.Ball.sprite.change_x = 0
-                self.Ball.sprite.change_y = 0
-                self.wait = True
+                self.loseLife()
                 return True
             self.sound.stop(self.media_player)
             # ViewManager.display_game_over(self.window)
@@ -324,6 +318,24 @@ class GameView(arcade.View):
 
     def setRandomBallForce(self):
         return random.randint(-6, 6)
+
+    def loseLife(self):
+        # perd vie
+        self.vie -= 1
+        # remet la taille de base
+        self.Ball.sprite.width = 25.6
+        self.Ball.sprite.height = 25.6
+        # replace la balle au centre
+        self.Ball.sprite.center_x = SCREEN_WIDTH / 2
+        self.Ball.sprite.center_y = SCREEN_HEIGHT / 2
+        # vitesse à zéro
+        self.Ball.sprite.change_x = 0
+        self.Ball.sprite.change_y = 0
+        # met en pause le jeu
+        self.wait = True
+    def endGame(self):
+        game_over_view = GameOverView(self.time_taken, self.score)
+        self.window.show_view(game_over_view)
 
 
     def on_mouse_press(self, _x, _y, _button, _modifiers):
