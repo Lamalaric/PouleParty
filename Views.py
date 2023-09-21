@@ -148,6 +148,10 @@ class GameView(arcade.View):
             self.Ball.sprite.change_x = self.setRandomBallForce()
             self.Ball.sprite.change_y *= -1
 
+            # Détection si y'a triche
+            if self.hasBallTouchedSides(self.platform, self.Ball):
+                print('TRICHEUR')
+
     def collisionBetween(self, sprite1, sprite2):
         return sprite1.collides_with_sprite(sprite2)
     def collisionBallPlatform(self):
@@ -177,3 +181,8 @@ class GameView(arcade.View):
 
     def setRandomBallForce(self):
         return random.randint(-6, 6)
+
+    def hasBallTouchedSides(self, platform, ball):
+        platformY = platform.get_hit_box()
+        print(platformY)
+        return False
