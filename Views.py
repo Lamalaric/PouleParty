@@ -271,9 +271,9 @@ class GameView(arcade.View):
             self.time_taken += delta_time
 
             #winning
-            #if (sprite list (vide))
-                #game_won_view = GameWinView(self.time_taken , self.score)
-                #self.window.show_view(game_won_view)
+            if len(self.scene["Bricks"]) == 0 :
+                game_won_view = GameWinView(self.time_taken , self.score)
+                self.window.show_view(game_won_view)
 
 
 
