@@ -18,7 +18,7 @@ class Platform(arcade.Sprite):
         self.sprite.change_x = -PLAYER_MOVEMENT_SPEED
 
     def moveUpward(self):
-        self.sprite.center_y += 2
+        self.sprite.center_y = SCREEN_HEIGHT / 4 -100
         self.toMoveUpward = False
 
     def stop(self):

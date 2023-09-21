@@ -214,9 +214,9 @@ class GameView(arcade.View):
         # cards = arcade.get_sprites_at_point((x, y), *sprite list des blocks*)
 
     def on_mouse_scroll(self, x: int, y: int, scroll_x: int, scroll_y: int):
-        theta = scroll_y * 2
-        print(theta)
-        self.platform.angle += theta
+        print(scroll_y)
+        self.Ball.sprite.width += scroll_y
+        self.Ball.sprite.height += scroll_y
 
     '''
     def hasBallTouchedSides(self, platform, ball):
