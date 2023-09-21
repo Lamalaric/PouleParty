@@ -8,4 +8,5 @@ CHARACTER_SCALING = 0.2
 TILE_SCALING = 2
 
 # Movement speed of player, in pixels per frame
-PLAYER_MOVEMENT_SPEED = 5
+PLAYER_MOVEMENT_SPEED = 7
+BALL_SPEED = 6

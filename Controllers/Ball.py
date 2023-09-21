@@ -10,7 +10,7 @@ class Ball:
         self.sprite.position = SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2
         # randomize sprite direction and speed
         self.sprite.change_x = 0
-        self.sprite.change_y = 6
+        self.sprite.change_y = BALL_SPEED
 
 
     def update(self):

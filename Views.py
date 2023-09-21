@@ -106,7 +106,6 @@ class GameView(arcade.View):
 
         self.background = arcade.load_texture("./Assets/fond_jeu.jpg")
 
-
     def on_draw(self):
         """Render the screen."""
 
@@ -125,7 +124,6 @@ class GameView(arcade.View):
             self.platform.move_right()
         elif key == arcade.key.LEFT or key == arcade.key.S:
             self.platform.move_left()
-
     def on_key_release(self, key, modifiers):
         """Called when the user releases a key."""
 
@@ -137,22 +135,27 @@ class GameView(arcade.View):
 
         # Move the player with the physics engine
         self.physics_engine.update()
-        # Vérifie s'il y a une collision balle - plateforme, pour faire rebondir la balle
         self.Ball.update()
+        # Corrige le bug de plateforme qui tombe en la remontant
+        if self.platform.toMoveUpward:
+            print(self.platform.toMoveUpward)
+            self.platform.moveUpward()
+
+        # Vérifie la collision balle - mur pour rebondir
         self.collisionBallWall()
+        # Vérifie s'il y a une collision balle - plateforme, pour faire rebondir la balle d'un angle X random
         if self.collisionBallPlatform():
+            self.platform.toMoveUpward = True
             self.Ball.sprite.change_x = self.setRandomBallForce()
             self.Ball.sprite.change_y *= -1
 
     def collisionBetween(self, sprite1, sprite2):
         return sprite1.collides_with_sprite(sprite2)
-
     def collisionBallPlatform(self):
         if self.collisionBetween(self.platform.sprite, self.Ball.sprite):
             # self.platform. += 3
             return True
         return False
-
     def collisionBallWall(self):
         # Mur bas
         if self.Ball.sprite.bottom <= 0:
