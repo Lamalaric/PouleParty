@@ -20,11 +20,6 @@ class MenuView(arcade.View):
         self.clear()
         arcade.draw_lrwh_rectangle_textured(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, self.background)
 
-        arcade.draw_text("Poule Party", SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2,
-                         arcade.color.WHITE, font_size=50, anchor_x="center")
-        arcade.draw_text("Click to advance", SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 - 75,
-                         arcade.color.WHITE, font_size=20, anchor_x="center")
-
     def on_mouse_press(self, _x, _y, _button, _modifiers):
         game_view = GameView()
         self.window.show_view(game_view)
@@ -186,7 +181,8 @@ class GameView(arcade.View):
         arcade.draw_lrwh_rectangle_textured(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, self.background)
 
         if self.wait :
-            arcade.draw_text("Click to continue", SCREEN_WIDTH / 2 , SCREEN_HEIGHT / 2 +100, arcade.color.BLACK, 24)
+            pass
+            # arcade.draw_text("Click to continue", SCREEN_WIDTH / 2 , SCREEN_HEIGHT / 2 +100, arcade.color.BLACK, 24)
 
         # Draw our Scene
         self.scene.draw()
@@ -333,7 +329,7 @@ class GameView(arcade.View):
         self.Ball.sprite.height = 25.6
         # replace la balle au centre
         self.Ball.sprite.center_x = SCREEN_WIDTH / 2
-        self.Ball.sprite.center_y = SCREEN_HEIGHT / 2
+        self.Ball.sprite.center_y = SCREEN_HEIGHT / 2 -50
         # vitesse à zéro
         self.Ball.sprite.change_x = 0
         self.Ball.sprite.change_y = 0
