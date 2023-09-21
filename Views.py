@@ -97,6 +97,7 @@ class GameView(arcade.View):
     """
     Main application class.
     """
+
     def __init__(self):
 
         # Call the parent class and set up the window
