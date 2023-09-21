@@ -8,24 +8,42 @@ from constant import *
 
 
 class MenuView(arcade.View):
+
+    def __init__(self):
+        super().__init__()
+        self.background = None
+
     def on_show_view(self):
-        arcade.set_background_color(arcade.color.WHITE)
+        self.background = arcade.load_texture("./Assets/maxresdefault.png")
 
     def on_draw(self):
         self.clear()
-        arcade.draw_text("Menu Screen", SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2,
-                         arcade.color.BLACK, font_size=50, anchor_x="center")
+        arcade.draw_lrwh_rectangle_textured(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, self.background)
+
+        arcade.draw_text("Poule Party", SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2,
+                         arcade.color.WHITE, font_size=50, anchor_x="center")
         arcade.draw_text("Click to advance", SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 - 75,
-                         arcade.color.GRAY, font_size=20, anchor_x="center")
+                         arcade.color.WHITE, font_size=20, anchor_x="center")
 
     def on_mouse_press(self, _x, _y, _button, _modifiers):
         game_view = GameView()
         self.window.show_view(game_view)
 
 class GameOverView(arcade.View):
-    def __init__(self):
+    def __init__(self, timer,score):
         super().__init__()
-        self.time_taken = 0
+        self.timer_text = arcade.Text(
+            text="00:00:00",
+            start_x=SCREEN_WIDTH // 2,
+            start_y=SCREEN_HEIGHT // 2 - 50,
+            color=arcade.color.WHITE,
+            font_size=100,
+            anchor_x="center",
+        )
+        self.timer = timer
+        self.score = score
+
+
 
     def on_show_view(self):
         arcade.set_background_color(arcade.color.BLACK)
@@ -35,16 +53,37 @@ class GameOverView(arcade.View):
         """
         Draw "Game over" across the screen.
         """
-        arcade.draw_text("Game Over", 240, 400, arcade.color.WHITE, 54)
-        arcade.draw_text("Click to restart", 310, 300, arcade.color.WHITE, 24)
+        arcade.draw_text("Game Over", SCREEN_WIDTH/2, SCREEN_HEIGHT / 2, arcade.color.WHITE, 54,anchor_x="center")
+        arcade.draw_text("Click to restart", SCREEN_WIDTH/2, SCREEN_HEIGHT / 2 - 75, arcade.color.WHITE, 24,anchor_x="center")
 
-        time_taken_formatted = f"{round(self.time_taken, 2)} seconds"
-        arcade.draw_text(f"Time taken: {time_taken_formatted}",
+        #timer
+        # Calculate minutes
+        minutes = int(self.timer) // 60
+
+        # Calculate seconds by using a modulus (remainder)
+        seconds = int(self.timer) % 60
+
+        # Calculate 100s of a second
+        seconds_100s = int((self.timer - seconds) * 100)
+
+        # Use string formatting to create a new text string for our timer
+        self.timer_text.text = f"{minutes:02d}:{seconds:02d}:{seconds_100s:02d}"
+
+        #time_taken_formatted = f"{round(self.time_taken, 2)} seconds"
+        arcade.draw_text(f"Time taken: {self.timer_text.text}",
                          SCREEN_WIDTH / 2,
-                         200,
+                         SCREEN_HEIGHT / 2 - 150,
                          arcade.color.GRAY,
                          font_size=15,
                          anchor_x="center")
+
+        arcade.draw_text(f"Score : {self.score}",
+                         SCREEN_WIDTH / 2,
+                         250,
+                         arcade.color.GRAY,
+                         font_size=15,
+                         anchor_x="center")
+
 
         #output_total = f"Total Score: {self.window.total_score}"
         #arcade.draw_text(output_total, 10, 10, arcade.color.WHITE, 14)
@@ -59,6 +98,8 @@ class GameView(arcade.View):
     Main application class.
     """
 
+
+
     def __init__(self):
 
         # Call the parent class and set up the window
@@ -66,7 +107,8 @@ class GameView(arcade.View):
 
         # Our Scene Object
         self.scene = None
-
+        self.sound = arcade.Sound("./Assets/Chicken Techno_8410qUT4QtA.mp3", streaming=False)
+        self.media_player = self.sound.play(pan=0.5, volume=0.5,loop=True)
         self.background = None
         # Separate variable that holds the player sprite
         self.platform = None
@@ -78,6 +120,23 @@ class GameView(arcade.View):
 
         # Our physics engine
         self.physics_engine = None
+        self.left_key = False
+        self.right_key = False
+
+        #score, vie et timer
+        self.time_taken = 0
+        self.time_text = arcade.Text(
+            text="00:00:00",
+            start_x=SCREEN_WIDTH // 2,
+            start_y=SCREEN_HEIGHT // 2 - 50,
+            color=arcade.color.WHITE,
+            font_size=100,
+            anchor_x="center",
+        )
+        self.score = 0
+        self.vie = 3
+        self.wait = False
+
 
     def setup(self):
         """Set up the game here. Call this function to restart the game."""
@@ -91,12 +150,14 @@ class GameView(arcade.View):
         self.scene.add_sprite("Player", self.platform.sprite)
 
         # Ajout murs
-        self.LeftWall = Wall("./assets/lateral_wall.PNG", 0, SCREEN_HEIGHT / 2)
-        self.RightWall = Wall("./assets/lateral_wall.PNG", SCREEN_WIDTH, SCREEN_HEIGHT / 2)
-        self.TopWall = Wall("./assets/vertical_wall.PNG", SCREEN_WIDTH / 2, SCREEN_HEIGHT)
+        self.LeftWall = Wall("./assets/murV2.png", 0, SCREEN_HEIGHT / 2)
+        self.RightWall = Wall("./assets/murV2.png", SCREEN_WIDTH, SCREEN_HEIGHT / 2)
+        self.TopWall = Wall("./assets/murH2.png", SCREEN_WIDTH / 2, SCREEN_HEIGHT)
+
         self.scene.add_sprite("Walls", self.LeftWall.sprite)
         self.scene.add_sprite("Walls", self.RightWall.sprite)
         self.scene.add_sprite("Walls", self.TopWall.sprite)
+
         # Ajout balle
         self.Ball = Ball()
         self.scene.add_sprite("Walls", self.Ball.sprite)
@@ -117,39 +178,96 @@ class GameView(arcade.View):
 
         arcade.draw_lrwh_rectangle_textured(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, self.background)
 
+        if self.wait :
+            arcade.draw_text("Click to continue", SCREEN_WIDTH / 2 , SCREEN_HEIGHT / 2 +100, arcade.color.BLACK, 24)
+
         # Draw our Scene
         self.scene.draw()
+
+
+        #score, vie et timer
+        arcade.draw_text(f"Score : {self.score}",
+                         SCREEN_WIDTH / 4,
+                         SCREEN_HEIGHT - 80,
+                         arcade.color.BLACK,
+                         font_size=15,
+                         anchor_x="center")
+
+        # Calculate minutes
+        minutes = int(self.time_taken) // 60
+        # Calculate seconds by using a modulus (remainder)
+        seconds = int(self.time_taken) % 60
+        # Calculate 100s of a second
+        seconds_100s = int((self.time_taken - seconds) * 100)
+        # Use string formatting to create a new text string for our timer
+        self.time_text.text = f"{minutes:02d}:{seconds:02d}:{seconds_100s:02d}"
+        # time_taken_formatted = f"{round(self.time_taken, 2)} seconds"
+        arcade.draw_text(f"Time : {self.time_text.text}",
+                         SCREEN_WIDTH / 2,
+                         SCREEN_HEIGHT - 80,
+                         arcade.color.BLACK,
+                         font_size=15,
+                         anchor_x="center")
+        arcade.draw_text(f"Life : {self.vie}",
+                         3*SCREEN_WIDTH / 4,
+                         SCREEN_HEIGHT - 80,
+                         arcade.color.BLACK,
+                         font_size=15,
+                         anchor_x="center")
 
     def on_key_press(self, key, modifiers):
         """Called whenever a key is pressed."""
 
         if key == arcade.key.RIGHT or key == arcade.key.W:
+            self.right_key = True
             self.platform.move_right()
         elif key == arcade.key.LEFT or key == arcade.key.S:
+            self.left_key = True
             self.platform.move_left()
     def on_key_release(self, key, modifiers):
         """Called when the user releases a key."""
-
-        if (key == arcade.key.RIGHT or key == arcade.key.W) or (key == arcade.key.LEFT or key == arcade.key.S):
-            self.platform.stop()
+        if key == arcade.key.RIGHT or key == arcade.key.W:
+            self.right_key = False
+            if self.left_key:
+                self.platform.move_left()
+            else:
+                self.platform.stop()
+        if key == arcade.key.LEFT or key == arcade.key.S:
+            self.left_key = False
+            if self.right_key:
+                self.platform.move_right()
+            else:
+                self.platform.stop()
 
     def on_update(self, delta_time):
         """Movement and game logic"""
 
         # Move the player with the physics engine
         self.physics_engine.update()
-        self.Ball.update()
-        # Corrige le bug de plateforme qui tombe en la remontant
-        if self.platform.toMoveUpward:
-            self.platform.moveUpward()
 
-        # Vérifie la collision balle - mur pour rebondir
-        self.collisionBallWall()
-        # Vérifie s'il y a une collision balle - plateforme, pour faire rebondir la balle d'un angle X random
-        if self.collisionBallPlatform():
-            self.platform.toMoveUpward = True
-            self.Ball.sprite.change_x = self.setRandomBallForce()
-            self.Ball.sprite.change_y *= -1
+        self.Ball.update()
+
+        if self.wait == False :
+
+            # Corrige le bug de plateforme qui tombe en la remontant
+            if self.platform.toMoveUpward:
+                self.platform.moveUpward()
+
+            # Vérifie la collision balle - mur pour rebondir
+            self.collisionBallWall()
+
+            # Vérifie s'il y a une collision balle - plateforme, pour faire rebondir la balle d'un angle X random
+            if self.collisionBallPlatform():
+                self.platform.toMoveUpward = True
+                self.Ball.sprite.change_x = self.setRandomBallForce()
+                self.Ball.sprite.change_y *= -1
+            # collision brique-balle
+            # self.score += 5
+
+            # Accumulate the total time
+            self.time_taken += delta_time
+
+
 
     def collisionBetween(self, sprite1, sprite2):
         return sprite1.collides_with_sprite(sprite2)
@@ -161,8 +279,18 @@ class GameView(arcade.View):
     def collisionBallWall(self):
         # Mur bas
         if self.Ball.sprite.bottom <= 0:
-            game_over_view = GameOverView()
-            self.window.show_view(game_over_view)
+            if self.vie == 0 :
+                game_over_view = GameOverView(self.time_taken , self.score)
+                self.window.show_view(game_over_view)
+            else :
+                self.vie -= 1
+                self.Ball.sprite.center_x = SCREEN_WIDTH / 2
+                self.Ball.sprite.center_y = SCREEN_HEIGHT / 2
+                self.Ball.sprite.change_x = 0
+                self.Ball.sprite.change_y = 0
+                self.wait = True
+                return True
+            self.sound.stop(self.media_player)
             # ViewManager.display_game_over(self.window)
         # Mur haut
         if self.collisionBetween(self.TopWall.sprite, self.Ball.sprite):
@@ -180,3 +308,11 @@ class GameView(arcade.View):
 
     def setRandomBallForce(self):
         return random.randint(-6, 6)
+
+
+    def on_mouse_press(self, _x, _y, _button, _modifiers):
+        if self.wait == True :
+            self.Ball.sprite.change_x = 0
+            self.Ball.sprite.change_y = - BALL_SPEED
+            self.wait = False
+
