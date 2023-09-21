@@ -1,5 +1,5 @@
 import arcade
-
+from constant import *
 
 class Brick(arcade.Sprite):
     """Classe decrivant le fonctionnement d'une brick."""
@@ -7,10 +7,11 @@ class Brick(arcade.Sprite):
     """Constructeur de classe"""
     def __init__(self, healthPoint, position, size):
         super().__init__()
-        self.__healthPoint = healthPoint
-        self.__position = position
-        self.__size = size
-        self.__imagePath = f"./assets/brique.png"
+        self.healthPoint = healthPoint
+        self.position = position
+        self.size = size
+        self.sprite = sprite
+        self.sprite.position = position
 
     """Retirer des points de vie à la brick"""
     def __updateHealthPoint(self, healthPointToRemove):
@@ -23,15 +24,29 @@ class Brick(arcade.Sprite):
         return self.__healthPoint
 
     @staticmethod
-    def fromJson(data):
-        hp = data["hp"]
-        position = data["position"]
-        size = data["size"]
+    def fromJson(data, y):
+        bricksLine = []
 
-        return Brick(hp, position, size)
+        for i in range(data["bricksNumber"]):
+            health = data["health"]
+            size = data["scale"]
+            sprite = arcade.Sprite(f"./assets/brique.png", size)
+
+            x = SCREEN_WIDTH / data["bricksNumber"]
+            x += sprite.width * i + 1
+            position = (x, y)
+
+            brick = Brick(health, position, size, sprite)
+
+
+            bricksLine.append(brick)
+            x += 50
+
+        return bricksLine
 
     """Détruire la brick lorsqu'elle n'a plus de vie"""
-    def __die(self):
+
+    def die(self):
         pass
 
 

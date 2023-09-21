@@ -76,6 +76,7 @@ class GameView(arcade.View):
         self.Ball = None
         self.level = Level(1, "./Assets/fond_jeu.jpg")
 
+
         # Our physics engine
         self.physics_engine = None
 

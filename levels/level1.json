@@ -1,46 +1,27 @@
 [
     {
-        "hp": 1,
-        "position": {
-            "x": 0,
-            "y": 0
-        },
-        "size": {
-            "height": 50,
-            "width": 50
-        }
+        "bricksNumber": 5,
+        "health": 1,
+        "scale": 0.2
     },
     {
-        "hp": 1,
-        "position": {
-            "x": 50,
-            "y": 0
-        },
-        "size": {
-            "height": 50,
-            "width": 50
-        }
+        "bricksNumber": 4,
+        "health": 1,
+        "scale": 0.2
     },
     {
-        "hp": 1,
-        "position": {
-            "x": 0,
-            "y": 50
-        },
-        "size": {
-            "height": 50,
-            "width": 50
-        }
+        "bricksNumber": 3,
+        "health": 1,
+        "scale": 0.2
     },
-        {
-        "hp": 1,
-        "position": {
-            "x": 50,
-            "y": 50
-        },
-        "size": {
-            "height": 50,
-            "width": 50
-        }
+    {
+        "bricksNumber": 2,
+        "health": 1,
+        "scale": 0.2
+    },
+    {
+        "bricksNumber": 1,
+        "health": 1,
+        "scale": 0.2
     }
 ]
