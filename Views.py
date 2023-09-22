@@ -302,12 +302,10 @@ class GameView(arcade.View):
     def collisionBallBricks(self):
         bricksTouched = arcade.check_for_collision_with_list(self.Ball.sprite, self.scene["Bricks"])
         if len(bricksTouched) > 0:
-            print(self.Ball.damage)
             self.Ball.sprite.change_y *= -1
             for brick in bricksTouched:
                 touchedBrick = self.level.getBrickById(brick.guid)
                 touchedBrick.healthPoint -= self.Ball.damage
-                print(self.Ball.damage)
                 if touchedBrick.healthPoint <= 0:
                     brick.kill()
             return True
