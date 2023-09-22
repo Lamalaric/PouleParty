@@ -178,9 +178,6 @@ class GameView(arcade.View):
 
                 bricksLeft.append(mySprite)
                 self.scene.add_sprite("Bricks", mySprite)
-                # self.scene.add_sprite(f"Brick-{brick.id}", brick.sprite)
-                # self.scene.add_sprite_list("Bricks", mySprite)
-                print(f"Brick-{brick.id}")
 
     def on_draw(self):
         """Render the screen."""
