@@ -16,10 +16,11 @@ class Ball:
         # randomize sprite direction and speed
         self.sprite.change_x = 0
         self.sprite.change_y = BALL_SPEED
-        self.damage = BALL_SCALE+1
+        self.damage = 1
 
     def modify_damage(self):
         self.damage = self.sprite.width // BALL_SCALE+1
+        # print(self.damage)
 
     def update(self):
         self.sprite.update()  # update the sprite

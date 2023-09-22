@@ -10,7 +10,7 @@ BALL_SCALE = 512*0.05
 
 # Movement speed of player, in pixels per frame
 PLAYER_MOVEMENT_SPEED = 10
-BALL_SPEED = 4
+BALL_SPEED = 8
 
 # POSITIONNEMENT DES BRICKS
 
