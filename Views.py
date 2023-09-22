@@ -39,17 +39,18 @@ class GameOverView(arcade.View):
         self.timer = timer
         self.score = score
 
+        self.background = None
+
     def on_show_view(self):
         arcade.set_background_color(arcade.color.BLACK)
+        self.background = arcade.load_texture("./Assets/menuLost.png")
 
     def on_draw(self):
         self.clear()
         """
         Draw "Game over" across the screen.
         """
-        arcade.draw_text("Game Over", SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, arcade.color.WHITE, 54, anchor_x="center")
-        arcade.draw_text("Click to restart", SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 - 75, arcade.color.WHITE, 24,
-                         anchor_x="center")
+        arcade.draw_lrwh_rectangle_textured(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, self.background)
 
         # timer
         # Calculate minutes
@@ -67,16 +68,16 @@ class GameOverView(arcade.View):
         # time_taken_formatted = f"{round(self.time_taken, 2)} seconds"
         arcade.draw_text(f"Time taken: {self.timer_text.text}",
                          SCREEN_WIDTH / 2,
-                         SCREEN_HEIGHT / 2 - 150,
-                         arcade.color.GRAY,
-                         font_size=15,
+                         SCREEN_HEIGHT / 2 - 180,
+                         arcade.color.GHOST_WHITE,
+                         font_size=20,
                          anchor_x="center")
 
         arcade.draw_text(f"Score : {self.score}",
                          SCREEN_WIDTH / 2,
-                         SCREEN_HEIGHT / 2 - 100,
-                         arcade.color.GRAY,
-                         font_size=15,
+                         SCREEN_HEIGHT / 2 + 80,
+                         arcade.color.GHOST_WHITE,
+                         font_size=40,
                          anchor_x="center")
 
         # output_total = f"Total Score: {self.window.total_score}"
@@ -236,6 +237,7 @@ class GameView(arcade.View):
     def on_update(self, delta_time):
         """Movement and game logic"""
         self.Ball.update()
+
         if not self.wait:
             # Déplacement de la balle
             # self.Ball.update()
@@ -346,7 +348,6 @@ class GameView(arcade.View):
             bricksClicked = arcade.get_sprites_at_point((_x, _y), self.scene["Bricks"])
             if len(bricksClicked) > 0:
                 for brick in bricksClicked:
-                    print(brick)
                     brick.kill()
 
     def on_mouse_scroll(self, x: int, y: int, scroll_x: int, scroll_y: int):
@@ -380,18 +381,21 @@ class GameWinView(arcade.View):
         self.timer = timer
         self.score = score
         self.beatenLevel = level
+        self.background = None
 
     def on_show_view(self):
-        arcade.set_background_color(arcade.color.BLACK_OLIVE)
+        if self.beatenLevel.isAnyLevelLeft():
+            self.background = arcade.load_texture("./Assets/menuLevel.png")
+        else:
+            self.background = arcade.load_texture("./Assets/menuWin.png")
 
     def on_draw(self):
         self.clear()
         """
         Draw "Game over" across the screen.
         """
-        arcade.draw_text("YOU WON !", SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, arcade.color.WHITE, 54, anchor_x="center")
-        arcade.draw_text("Click to restart", SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 - 75, arcade.color.WHITE, 24,
-                         anchor_x="center")
+
+        arcade.draw_lrwh_rectangle_textured(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, self.background)
 
         # timer
         # Calculate minutes
@@ -405,17 +409,17 @@ class GameWinView(arcade.View):
 
         # time_taken_formatted = f"{round(self.time_taken, 2)} seconds"
         arcade.draw_text(f"Time taken: {self.timer_text.text}",
-                         SCREEN_WIDTH / 2,
-                         SCREEN_HEIGHT / 2 - 150,
-                         arcade.color.GRAY,
-                         font_size=15,
+                         SCREEN_WIDTH / 2 - 170,
+                         SCREEN_HEIGHT / 2 - 120,
+                         arcade.color.BLACK,
+                         font_size=20,
                          anchor_x="center")
 
         arcade.draw_text(f"Score : {self.score}",
                          SCREEN_WIDTH / 2,
-                         SCREEN_HEIGHT - 100,
-                         arcade.color.GRAY,
-                         font_size=15,
+                         SCREEN_HEIGHT /2 + 100,
+                         arcade.color.BLACK,
+                         font_size=40,
                          anchor_x="center")
 
         # output_total = f"Total Score: {self.window.total_score}"
