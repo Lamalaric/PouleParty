@@ -42,7 +42,7 @@ class Level:
     def getBrickById(self, brickId):
         for brickLine in self.brickLines:
             for brick in brickLine:
-                if brick.id == brickId:
+                if f"Brick-{brick.id}" == brickId:
                     return brick
 
     # Fill the Brick list with the bricks from the JSON file

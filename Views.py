@@ -160,8 +160,14 @@ class GameView(arcade.View):
         bricksLeft = arcade.SpriteList()
         for brickline in self.level.brickLines:
             for brick in brickline:
-                bricksLeft.append(brick.sprite)
-                self.scene.add_sprite("Bricks", brick.sprite)
+                mySprite = brick.sprite
+                mySprite.guid = f"Brick-{brick.id}"
+
+                bricksLeft.append(mySprite)
+                self.scene.add_sprite("Bricks", mySprite)
+                # self.scene.add_sprite(f"Brick-{brick.id}", brick.sprite)
+                # self.scene.add_sprite_list("Bricks", mySprite)
+                print(f"Brick-{brick.id}")
 
     def on_draw(self):
         """Render the screen."""
@@ -278,7 +284,11 @@ class GameView(arcade.View):
         if len(bricksTouched) > 0:
             self.Ball.sprite.change_y *= -1
             for brick in bricksTouched:
-                brick.kill()
+                touchedBrick = self.level.getBrickById(brick.guid)
+                touchedBrick.healthPoint -= self.Ball.damage
+                print(self.Ball.damage)
+                if touchedBrick.healthPoint <= 0:
+                    brick.kill()
             return True
         return False
 
@@ -310,6 +320,7 @@ class GameView(arcade.View):
     def on_mouse_motion(self, x, y, dx, dy):
         """ Handle Mouse Motion """
         self.platform.sprite.center_x = x
+
     def on_mouse_press(self, _x, _y, _button, _modifiers):
         # Récupère le sprite cliqués
         # cards = arcade.get_sprites_at_point((x, y), *sprite list des blocks*)
@@ -317,12 +328,13 @@ class GameView(arcade.View):
             self.Ball.sprite.change_x = 0
             self.Ball.sprite.change_y = - BALL_SPEED
             self.wait = False
+
     def on_mouse_scroll(self, x: int, y: int, scroll_x: int, scroll_y: int):
         multiplicator = 0
         if scroll_y > 0: multiplicator = 3
         if scroll_y < 0: multiplicator = 4
-        self.Ball.sprite.width += scroll_y*multiplicator
-        self.Ball.sprite.height += scroll_y*multiplicator
+        self.Ball.sprite.width += scroll_y * multiplicator
+        self.Ball.sprite.height += scroll_y * multiplicator
 
         if 150 < self.Ball.sprite.width:
             self.Ball.sprite.width = 150
