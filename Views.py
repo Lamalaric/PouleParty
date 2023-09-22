@@ -113,11 +113,12 @@ class GameView(arcade.View):
         self.LeftWall = None
         self.Ball = None
         self.level = level
-
+        self.chickens = []
         # Our physics engine
         self.physics_engine = None
         self.left_key = False
         self.right_key = False
+
 
         # score, vie et timer
         self.time_taken = 0
@@ -144,6 +145,7 @@ class GameView(arcade.View):
     def setup(self):
         """Set up the game here. Call this function to restart the game."""
 
+
     def on_show_view(self):
         # Affiche le niveau actuel
         self.levelText.text = f"{self.level.levelNumber}"
@@ -154,6 +156,8 @@ class GameView(arcade.View):
         # Ajout player
         self.platform = Platform()
         self.scene.add_sprite("Player", self.platform.sprite)
+
+
 
         # Ajout murs
         self.LeftWall = Wall("./assets/murV2.png", 0, SCREEN_HEIGHT / 2)
@@ -179,6 +183,7 @@ class GameView(arcade.View):
                 bricksLeft.append(mySprite)
                 self.scene.add_sprite("Bricks", mySprite)
 
+
     def on_draw(self):
         """Render the screen."""
 
@@ -188,15 +193,19 @@ class GameView(arcade.View):
         arcade.draw_lrwh_rectangle_textured(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, self.background)
 
         if self.wait:
+
             arcade.draw_text("Click to continue",
-                             SCREEN_WIDTH / 2 ,
+                             SCREEN_WIDTH / 2,
                              100,
                              arcade.color.BLACK,
                              24,
-                             anchor_x = "center")
+                             anchor_x="center")
 
         # Draw our Scene
         self.scene.draw()
+
+        for chicken in self.chickens:
+            chicken.draw()
 
         # score, vie et timer
         arcade.draw_text(f"Score : {self.score}",
@@ -242,6 +251,11 @@ class GameView(arcade.View):
         if not self.wait:
             # Déplacement de la balle
             # self.Ball.update()
+
+            for chicken in self.chickens:
+                chicken.center_x += chicken.center_x * delta_time
+                if chicken.right < 0 or chicken.left > SCREEN_WIDTH:
+                    self.chickens.remove(chicken)
 
             # Corrige le bug de plateforme qui tombe en la remontant
             if self.platform.toMoveUpward:
@@ -311,6 +325,11 @@ class GameView(arcade.View):
                 touchedBrick.healthPoint -= self.Ball.damage
                 if touchedBrick.healthPoint <= 0:
                     brick.kill()
+
+                    chicken = arcade.Sprite("./assets/poule_vole.gif", 0.3)
+                    chicken.position = brick.position
+                    self.scene.add_sprite("Chickens", chicken)
+                    self.chickens.append(chicken)
             return True
         return False
 
@@ -418,7 +437,7 @@ class GameWinView(arcade.View):
 
         arcade.draw_text(f"Score : {self.score}",
                          SCREEN_WIDTH / 2,
-                         SCREEN_HEIGHT /2 + 100,
+                         SCREEN_HEIGHT / 2 + 100,
                          arcade.color.BLACK,
                          font_size=40,
                          anchor_x="center")
