@@ -47,8 +47,6 @@ class Brick(arcade.Sprite):
 
     """Détruire la brick lorsqu'elle n'a plus de vie"""
 
-    def die(self):
-        pass
 
     def setDefaultTexture(self):
         self.sprite.append_texture(arcade.load_texture(self.image_path))

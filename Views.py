@@ -419,7 +419,7 @@ class GameWinView(arcade.View):
         # time_taken_formatted = f"{round(self.time_taken, 2)} seconds"
         arcade.draw_text(f"Time taken: {self.timer_text.text}",
                          SCREEN_WIDTH / 2 - 170,
-                         SCREEN_HEIGHT / 2 - 120,
+                         SCREEN_HEIGHT / 2 - 130,
                          arcade.color.BLACK,
                          font_size=20,
                          anchor_x="center")
