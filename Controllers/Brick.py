@@ -7,13 +7,14 @@ class Brick(arcade.Sprite):
 
     """Constructeur de classe"""
 
-    def __init__(self, healthPoint, position, size, sprite, id):
+    def __init__(self, healthPoint, position, size, sprite, id, path):
         super().__init__()
         self.id = id
         self.healthPoint = healthPoint
         self.position = position
         self.size = size
         self.sprite = sprite
+        self.image_path = path
         self.sprite.position = position
 
     @staticmethod
@@ -25,17 +26,20 @@ class Brick(arcade.Sprite):
         brick_spacing = SCREEN_WIDTH / (data["bricksNumber"] + 1)
 
         for i in range(data["bricksNumber"]):
-            if health > 100:
-                sprite = arcade.Sprite(f"./assets/brique_metal.png", size)
+            if 3 <= health < 1000:
+                path = f"./assets/brique_metal.png"
+            elif health >= 1000:
+                path = f"./assets/brique_noire.png"
             else:
-                sprite = arcade.Sprite(f"./assets/brique.png", size)
+                path = f"./assets/brique.png"
 
+            sprite = arcade.Sprite(path, size)
             x = (i + 1) * brick_spacing
 
             sprite.position = (x, y)
 
             # Concat x and y as a string to create a unique id
-            brick = Brick(health, sprite.position, size, sprite, str(x) + "-" + str(y))
+            brick = Brick(health, sprite.position, size, sprite, str(x) + "-" + str(y), path)
 
             bricksLine.append(brick)
 
