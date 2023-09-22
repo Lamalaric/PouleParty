@@ -37,7 +37,7 @@ class Brick(arcade.Sprite):
 
         for i in range(data["bricksNumber"]):
             if health > 100:
-                sprite = arcade.Sprite(f"./assets/brique_noire.png", size)
+                sprite = arcade.Sprite(f"./assets/brique_metal.png", size)
             else:
                 sprite = arcade.Sprite(f"./assets/brique.png", size)
 
