@@ -36,8 +36,10 @@ class Brick(arcade.Sprite):
         brick_spacing = SCREEN_WIDTH / (data["bricksNumber"] + 1)
 
         for i in range(data["bricksNumber"]):
-            if health > 100:
+            if 3 <= health < 1000:
                 sprite = arcade.Sprite(f"./assets/brique_metal.png", size)
+            elif health >= 1000:
+                sprite = arcade.Sprite(f"./assets/brique_noire.png", size)
             else:
                 sprite = arcade.Sprite(f"./assets/brique.png", size)
 
