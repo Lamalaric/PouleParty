@@ -1,6 +1,7 @@
 import arcade
 from constant import *
 
+
 class Brick(arcade.Sprite):
     """Classe decrivant le fonctionnement d'une brick."""
 
@@ -34,7 +35,6 @@ class Brick(arcade.Sprite):
         brick_spacing = SCREEN_WIDTH / (data["bricksNumber"] + 1)
 
         for i in range(data["bricksNumber"]):
-
             sprite = arcade.Sprite(f"./assets/brique.png", size)
 
             x = (i + 1) * brick_spacing

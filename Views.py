@@ -230,7 +230,7 @@ class GameView(arcade.View):
         self.Ball.update()
         if not self.wait:
             # Déplacement de la balle
-            self.Ball.update()
+            # self.Ball.update()
 
             # Corrige le bug de plateforme qui tombe en la remontant
             if self.platform.toMoveUpward:
@@ -270,7 +270,7 @@ class GameView(arcade.View):
     def collisionBallWall(self):
         # Mur bas
         if self.Ball.sprite.bottom <= 0:
-            if self.vie == 0:
+            if self.vie == 1:
                 self.endGame()
             else:
                 self.loseLife()
@@ -294,6 +294,7 @@ class GameView(arcade.View):
     def collisionBallBricks(self):
         bricksTouched = arcade.check_for_collision_with_list(self.Ball.sprite, self.scene["Bricks"])
         if len(bricksTouched) > 0:
+            print(self.Ball.damage)
             self.Ball.sprite.change_y *= -1
             for brick in bricksTouched:
                 brick.kill()
