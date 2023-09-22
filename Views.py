@@ -73,8 +73,8 @@ class GameOverView(arcade.View):
                          anchor_x="center")
 
         arcade.draw_text(f"Score : {self.score}",
-                         SCREEN_WIDTH / 2 - 100,
-                         250,
+                         SCREEN_WIDTH / 2,
+                         SCREEN_HEIGHT / 2 - 100,
                          arcade.color.GRAY,
                          font_size=15,
                          anchor_x="center")
@@ -98,10 +98,12 @@ class GameView(arcade.View):
         super().__init__()
 
         # Our Scene Object
+        self.effect_player = None
+        self.effect_music = None
         self.bricks = None
         self.scene = None
-        self.sound = arcade.Sound("./Assets/Chicken Techno_8410qUT4QtA.mp3", streaming=False)
-        self.media_player = self.sound.play(pan=0.5, volume=0.5, loop=True)
+        self.background_music = arcade.Sound("./Assets/Run-Amok(chosic.com).mp3", streaming=False)
+        self.media_player = self.background_music.play(pan=0.5, volume=0.5, loop=True)
         self.background = None
         # Separate variable that holds the player sprite
         self.platform = None
@@ -126,6 +128,14 @@ class GameView(arcade.View):
             font_size=100,
             anchor_x="center",
         )
+        self.levelText = arcade.Text(
+            text=f"{self.level.levelNumber}",
+            start_x=SCREEN_WIDTH // 2,
+            start_y=SCREEN_HEIGHT // 2 - 50,
+            color=arcade.color.WHITE,
+            font_size=100,
+            anchor_x="center",
+        )
         self.score = 0
         self.vie = 3
         self.wait = False
@@ -134,6 +144,8 @@ class GameView(arcade.View):
         """Set up the game here. Call this function to restart the game."""
 
     def on_show_view(self):
+        # Affiche le niveau actuel
+        self.levelText.text = f"{self.level.levelNumber}"
 
         # Initialize Scene
         self.scene = arcade.Scene()
@@ -214,10 +226,16 @@ class GameView(arcade.View):
                          font_size=15,
                          anchor_x="center")
 
+        arcade.draw_text(f"{self.levelText.text}",
+                         SCREEN_WIDTH / 2,
+                         SCREEN_HEIGHT - 40,
+                         arcade.color.BLACK,
+                         font_size=24,
+                         anchor_x="center")
+
     def on_update(self, delta_time):
         """Movement and game logic"""
         self.Ball.update()
-
         if not self.wait:
             # Déplacement de la balle
             self.Ball.update()
@@ -232,7 +250,7 @@ class GameView(arcade.View):
             # Vérifie s'il y a une collision balle - plateforme, pour faire rebondir la balle d'un angle X random
             if self.collisionBallPlatform():
                 self.platform.toMoveUpward = True
-                self.Ball.sprite.change_x = self.setRandomBallForce()
+                self.Ball.sprite.change_x = (self.Ball.sprite.center_x - self.platform.sprite.center_x) / 10
                 self.Ball.sprite.change_y *= -1
             # Vérifie la collision balle - brique
             if self.collisionBallBricks():
@@ -251,6 +269,8 @@ class GameView(arcade.View):
 
     def collisionBallPlatform(self):
         if self.collisionBetween(self.platform.sprite, self.Ball.sprite):
+            self.effect_music = arcade.Sound("./Assets/bonk-sound-effect-36055.mp3", streaming=False)
+            self.effect_player = self.effect_music.play(pan=0.5, volume=0.4, loop=False)
             # self.platform. += 3
             return True
         return False
@@ -263,7 +283,7 @@ class GameView(arcade.View):
             else:
                 self.loseLife()
                 return True
-            self.sound.stop(self.media_player)
+
             # ViewManager.display_game_over(self.window)
         # Mur haut
         if self.collisionBetween(self.TopWall.sprite, self.Ball.sprite):
@@ -292,12 +312,6 @@ class GameView(arcade.View):
             return True
         return False
 
-    def click_brique(self):
-        return
-
-    def setRandomBallForce(self):
-        return random.randint(-6, 6)
-
     def loseLife(self):
         # perd vie
         self.vie -= 1
@@ -316,6 +330,7 @@ class GameView(arcade.View):
     def endGame(self):
         game_over_view = GameOverView(self.time_taken, self.score)
         self.window.show_view(game_over_view)
+        self.background_music.stop(self.media_player)
 
     def on_mouse_motion(self, x, y, dx, dy):
         """ Handle Mouse Motion """
@@ -328,6 +343,12 @@ class GameView(arcade.View):
             self.Ball.sprite.change_x = 0
             self.Ball.sprite.change_y = - BALL_SPEED
             self.wait = False
+        else:
+            bricksClicked = arcade.get_sprites_at_point((_x, _y), self.scene["Bricks"])
+            if len(bricksClicked) > 0:
+                for brick in bricksClicked:
+                    print(brick)
+                    brick.kill()
 
     def on_mouse_scroll(self, x: int, y: int, scroll_x: int, scroll_y: int):
         multiplicator = 0
