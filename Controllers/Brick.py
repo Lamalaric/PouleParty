@@ -51,7 +51,5 @@ class Brick(arcade.Sprite):
         pass
 
     def setDefaultTexture(self):
-        self.sprite.append_texture(arcade.load_texture(self.imagePath))
-        self.sprite.set_texture(1)
-
-        return
+        self.sprite.append_texture(arcade.load_texture(self.image_path))
+        self.sprite.set_texture(2)

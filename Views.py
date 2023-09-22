@@ -313,7 +313,7 @@ class GameView(arcade.View):
                 touchedBrick.sprite.append_texture(arcade.load_texture("./assets/brique_red.png"))
                 touchedBrick.sprite.set_texture(1)
                 # Re-set default texture .3s later
-                r = Timer(.3, touchedBrick.setDefaultTexture, ())
+                r = Timer(.1, touchedBrick.setDefaultTexture, ())
                 r.start()
 
                 touchedBrick.healthPoint -= self.Ball.damage
