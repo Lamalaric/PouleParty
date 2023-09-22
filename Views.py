@@ -178,9 +178,6 @@ class GameView(arcade.View):
 
                 bricksLeft.append(mySprite)
                 self.scene.add_sprite("Bricks", mySprite)
-                # self.scene.add_sprite(f"Brick-{brick.id}", brick.sprite)
-                # self.scene.add_sprite_list("Bricks", mySprite)
-                print(f"Brick-{brick.id}")
 
     def on_draw(self):
         """Render the screen."""
@@ -191,8 +188,12 @@ class GameView(arcade.View):
         arcade.draw_lrwh_rectangle_textured(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, self.background)
 
         if self.wait:
-            pass
-            # arcade.draw_text("Click to continue", SCREEN_WIDTH / 2 , SCREEN_HEIGHT / 2 +100, arcade.color.BLACK, 24)
+            arcade.draw_text("Click to continue",
+                             SCREEN_WIDTH / 2 ,
+                             100,
+                             arcade.color.BLACK,
+                             24,
+                             anchor_x = "center")
 
         # Draw our Scene
         self.scene.draw()
