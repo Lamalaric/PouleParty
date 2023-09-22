@@ -16,17 +16,6 @@ class Brick(arcade.Sprite):
         self.sprite = sprite
         self.sprite.position = position
 
-    """Retirer des points de vie à la brick"""
-
-    def updateHealthPoint(self, healthPointToRemove):
-        if self.healthPoint - healthPointToRemove <= 0:
-            self.die()
-            return
-
-        self.healthPoint -= healthPointToRemove
-
-        return self.healthPoint
-
     @staticmethod
     def fromJson(data, y):
         bricksLine = []
@@ -56,3 +45,9 @@ class Brick(arcade.Sprite):
 
     def die(self):
         pass
+
+    def setDefaultTexture(self):
+        self.sprite.append_texture(arcade.load_texture(self.imagePath))
+        self.sprite.set_texture(1)
+
+        return

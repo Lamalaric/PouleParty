@@ -5,6 +5,7 @@ from Controllers.Wall import Wall
 from Controllers.Ball import Ball
 from Controllers.Platform import Platform
 from constant import *
+from threading import Timer
 
 
 class MenuView(arcade.View):
@@ -308,6 +309,13 @@ class GameView(arcade.View):
             self.Ball.sprite.change_y *= -1
             for brick in bricksTouched:
                 touchedBrick = self.level.getBrickById(brick.guid)
+                # Change texture
+                touchedBrick.sprite.append_texture(arcade.load_texture("./assets/brique_red.png"))
+                touchedBrick.sprite.set_texture(1)
+                # Re-set default texture .3s later
+                r = Timer(.3, touchedBrick.setDefaultTexture, ())
+                r.start()
+
                 touchedBrick.healthPoint -= self.Ball.damage
                 if touchedBrick.healthPoint <= 0:
                     brick.kill()
