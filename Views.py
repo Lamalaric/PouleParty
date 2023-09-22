@@ -170,9 +170,17 @@ class GameView(arcade.View):
         # self.background = arcade.load_texture("./Assets/fond_jeu.jpg")
         self.background = arcade.load_texture(self.level.background)
 
+        bricksLeft = arcade.SpriteList()
         for brickline in self.level.brickLines:
             for brick in brickline:
-                self.scene.add_sprite("Bricks", brick.sprite)
+                mySprite = brick.sprite
+                mySprite.guid = f"Brick-{brick.id}"
+
+                bricksLeft.append(mySprite)
+                self.scene.add_sprite("Bricks", mySprite)
+                # self.scene.add_sprite(f"Brick-{brick.id}", brick.sprite)
+                # self.scene.add_sprite_list("Bricks", mySprite)
+                print(f"Brick-{brick.id}")
 
     def on_draw(self):
         """Render the screen."""
@@ -296,10 +304,12 @@ class GameView(arcade.View):
     def collisionBallBricks(self):
         bricksTouched = arcade.check_for_collision_with_list(self.Ball.sprite, self.scene["Bricks"])
         if len(bricksTouched) > 0:
-            print(self.Ball.damage)
             self.Ball.sprite.change_y *= -1
             for brick in bricksTouched:
-                brick.kill()
+                touchedBrick = self.level.getBrickById(brick.guid)
+                touchedBrick.healthPoint -= self.Ball.damage
+                if touchedBrick.healthPoint <= 0:
+                    brick.kill()
             return True
         return False
 

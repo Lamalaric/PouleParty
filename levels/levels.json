@@ -7,7 +7,7 @@
         },
         {
             "bricksNumber": 4,
-            "health": 1,
+            "health": 2,
             "scale": 0.2
         },
         {
@@ -24,12 +24,12 @@
     "level2": [
         {
             "bricksNumber": 5,
-            "health": 100,
+            "health": 3,
             "scale": 0.2
         },
         {
-            "bricksNumber": 7,
-            "health": 3,
+            "bricksNumber": 2,
+            "health": 2,
             "scale": 0.2
         },
         {
@@ -45,18 +45,13 @@
     ],
         "level3": [
         {
-            "bricksNumber": 2,
-            "health": 1,
-            "scale": 0.2
-        },
-        {
-            "bricksNumber": 1,
+            "bricksNumber": 3,
             "health": 1,
             "scale": 0.2
         },
         {
             "bricksNumber": 8,
-            "health": 10000,
+            "health": 1000000,
             "scale": 0.2
         }
     ]

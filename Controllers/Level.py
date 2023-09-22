@@ -39,6 +39,11 @@ class Level:
 
         return False
 
+    def getBrickById(self, brickId):
+        for brickLine in self.brickLines:
+            for brick in brickLine:
+                if f"Brick-{brick.id}" == brickId:
+                    return brick
 
     # Fill the Brick list with the bricks from the JSON file
     # The JSON file is named "levelX.json", where X is the level number.
